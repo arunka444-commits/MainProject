@@ -909,28 +909,7 @@
           </div>
 
           <div class="topbar-right">
-            <div class="topbar-search">
-              <svg viewBox="0 0 24 24" width="16" height="16">
-                <circle
-                  cx="11"
-                  cy="11"
-                  r="7"
-                  fill="none"
-                  stroke="currentColor"
-                  stroke-width="2"
-                />
-                <line
-                  x1="21"
-                  y1="21"
-                  x2="16.65"
-                  y2="16.65"
-                  stroke="currentColor"
-                  stroke-width="2"
-                  stroke-linecap="round"
-                />
-              </svg>
-              <input type="text" placeholder="Search users, bookings..." />
-            </div>
+            
 
             <button
               class="icon-btn"
@@ -966,22 +945,7 @@
               </svg>
             </button>
 
-            <button class="icon-btn" aria-label="Notifications">
-              <svg
-                viewBox="0 0 24 24"
-                width="19"
-                height="19"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="1.8"
-              >
-                <path
-                  d="M6 9a6 6 0 0 1 12 0c0 4 1.5 5.5 1.5 5.5H4.5S6 13 6 9Z"
-                />
-                <path d="M10 19a2 2 0 0 0 4 0" />
-              </svg>
-              <span class="notif-dot"></span>
-            </button>
+            
 
             <div class="admin-chip">
               <div class="admin-avatar">AD</div>
@@ -1108,7 +1072,7 @@
               <h2>All Users</h2>
               <p>Everyone registered as a customer on BookMyService.</p>
             </div>
-            <button class="primary-btn">
+            <a href="{% url 'signuppage' %}"><button class="primary-btn">
               <svg
                 viewBox="0 0 24 24"
                 width="14"
@@ -1120,7 +1084,7 @@
                 <path d="M12 5v14M5 12h14" />
               </svg>
               Add User
-            </button>
+            </button></a>
           </div>
           <div class="panel">
             <div class="search-mini">
@@ -1192,7 +1156,7 @@
                 Businesses and technicians offering services on the platform.
               </p>
             </div>
-            <button class="primary-btn">
+            <a href="{% url 'addservice' %}"><button class="primary-btn">
               <svg
                 viewBox="0 0 24 24"
                 width="14"
@@ -1204,7 +1168,7 @@
                 <path d="M12 5v14M5 12h14" />
               </svg>
               Add Provider
-            </button>
+            </button></a>
           </div>
           <div class="panel">
             <div class="search-mini">
@@ -1235,23 +1199,32 @@
                   <tr>
                     <th>Provider</th>
                     <th>Category</th>
-                    <th>Email</th>
-                    <th>Bookings</th>
+                    <th>Phone</th>
                     <th>Status</th>
+                    <th></th>
                     <th></th>
                   </tr>
                 </thead>
                 <tbody>
                     {% for provider in providers %}
-                  <tr>
-                    <td>{{ provider.provider.username }}</td>
-                    <td>Electronics</td>
-                    <td>kiran@example.com</td>
-                    <td>412</td>
-                    <td><span class="badge active">Active</span></td>
-                    <td>
-                  </tr>
-                </tbody>
+                    <tr>
+                      <td>{{ provider.user.username }}</td>
+                      <td>{{ provider.user.email }}</td>
+                      <td>{{ provider.phone }}</td>
+                      <td>
+                        {% if provider.user.is_active %}
+                        <span class="badge active">Active</span>
+                        {% else %}
+                        <span class="badge inactive">Inactive</span>
+                        {% endif %}
+                      </td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                      <td colspan="4">No service providers found</td>
+                    </tr>
+                    {% endfor %}
+                  </tbody>
               </table>
             </div>
           </div>
@@ -1264,7 +1237,7 @@
               <h2>Employees</h2>
               <p>Internal BookMyService staff and their roles.</p>
             </div>
-            <button class="primary-btn">
+            <a href="{% url 'signuppage' %}"><button class="primary-btn">
               <svg
                 viewBox="0 0 24 24"
                 width="14"
@@ -1276,7 +1249,7 @@
                 <path d="M12 5v14M5 12h14" />
               </svg>
               Add Employee
-            </button>
+            </button></a>
           </div>
           <div class="panel">
             <div class="table-scroll">
@@ -1284,53 +1257,32 @@
                 <thead>
                   <tr>
                     <th>Name</th>
-                    <th>Role</th>
                     <th>Email</th>
-                    <th>Department</th>
+                    <th>Phone</th>
                     <th>Status</th>
+                    <th></th>
                     <th></th>
                   </tr>
                 </thead>
                 <tbody>
+                  {% for employee in employees %}
                   <tr>
-                    <td>Divya Krishnan</td>
-                    <td>Support Lead</td>
-                    <td>divya@bookmyservice.com</td>
-                    <td>Customer Support</td>
-                    <td><span class="badge active">Active</span></td>
+                    <td>{{ employee.user.username }}</td>
+                    <td>{{ employee.user.email }}</td>
+                    <td>{{ employee.phone }}</td>
                     <td>
-                      <div class="row-actions">
-                        <button class="icon-action" title="Edit">✎</button
-                        ><button class="icon-action" title="Delete">✕</button>
-                      </div>
-                    </td>
+                        {% if employee.user.is_active %}
+                        <span class="badge active">Active</span>
+                        {% else %}
+                        <span class="badge inactive">Inactive</span>
+                        {% endif %}
+                     </td>
                   </tr>
+                  {% empty %}
                   <tr>
-                    <td>Anoop Varma</td>
-                    <td>Field Coordinator</td>
-                    <td>anoop@bookmyservice.com</td>
-                    <td>Operations</td>
-                    <td><span class="badge active">Active</span></td>
-                    <td>
-                      <div class="row-actions">
-                        <button class="icon-action" title="Edit">✎</button
-                        ><button class="icon-action" title="Delete">✕</button>
-                      </div>
-                    </td>
+                    <td colspan="4">No employees found</td>
                   </tr>
-                  <tr>
-                    <td>Fathima Rasheed</td>
-                    <td>Onboarding Specialist</td>
-                    <td>fathima@bookmyservice.com</td>
-                    <td>Partnerships</td>
-                    <td><span class="badge inactive">On leave</span></td>
-                    <td>
-                      <div class="row-actions">
-                        <button class="icon-action" title="Edit">✎</button
-                        ><button class="icon-action" title="Delete">✕</button>
-                      </div>
-                    </td>
-                  </tr>
+                  {% endfor %}
                 </tbody>
               </table>
             </div>
