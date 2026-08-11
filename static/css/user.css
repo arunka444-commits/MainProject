@@ -1,0 +1,118 @@
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: Arial, Helvetica, sans-serif;
+  background: #f2f4f7;
+  color: #1a1a1a;
+}
+
+a { text-decoration: none; color: inherit; }
+
+/* ===== Navbar ===== */
+.navbar { background:#0d1b3e; color:#fff; display:flex; align-items:center; justify-content:space-between; padding:14px 30px; }
+.logo { display:flex; align-items:center; gap:8px; font-size:20px; font-weight:bold; }
+.logo span { color:#f5a623; }
+.nav-links { display:flex; gap:34px; font-size:15px; }
+.nav-links a.active { color:#f5a623; padding-bottom:6px; border-bottom:2px solid #f5a623; }
+.nav-right { display:flex; align-items:center; gap:20px; }
+.nav-user { display:flex; align-items:center; gap:8px; }
+.avatar-round { width:36px; height:36px; border-radius:50%; overflow:hidden; }
+.avatar-round img { width:100%; height:100%; object-fit:cover; display:block; }
+
+/* ===== Page ===== */
+.page { max-width:1300px; margin:0 auto; padding:30px; }
+.page-header h1 { font-size:28px; }
+.page-header p { color:#666; margin-top:4px; }
+.grid { display:grid; grid-template-columns:2fr 1fr; gap:24px; margin-top:24px; }
+
+.card { background:#fff; border-radius:8px; border:1px solid #e4e7eb; padding:20px; margin-bottom:24px; }
+.card h2 { font-size:18px; margin-bottom:16px; }
+.card-header { display:flex; justify-content:space-between; align-items:center; margin-bottom:16px; }
+.card-header h2 { margin-bottom:0; }
+.link-blue { color:#2563eb; font-size:14px; }
+
+.search-box { background:#fff; border:1px solid #e4e7eb; border-radius:8px; padding:12px 16px; display:flex; align-items:center; gap:10px; color:#999; margin-bottom:24px; }
+
+/* ===== Provider cards ===== */
+.providers { display:grid; grid-template-columns:repeat(3,1fr); gap:18px; }
+.provider-card { border:1px solid #e4e7eb; border-radius:8px; overflow:hidden; background:#fff; }
+.provider-img { height:130px; position:relative; background-size:cover; background-position:center; }
+.provider-img::after {
+  content:"";
+  position:absolute; inset:0;
+  background:linear-gradient(180deg, rgba(0,0,0,0.15), rgba(0,0,0,0.35));
+}
+.rating-badge { position:absolute; top:10px; right:10px; background:#fff; padding:3px 8px; border-radius:6px; font-size:13px; font-weight:bold; display:flex; align-items:center; gap:4px; z-index:2; }
+.icon-circle { position:absolute; bottom:-18px; left:16px; width:36px; height:36px; border-radius:50%; background:#0d1b3e; color:#fff; display:flex; align-items:center; justify-content:center; font-size:16px; z-index:2; }
+.provider-body { padding:26px 16px 16px; }
+.provider-body h3 { font-size:16px; margin-bottom:6px; }
+.provider-body p { font-size:13px; color:#666; margin-bottom:12px; }
+.tags { display:flex; gap:8px; margin-bottom:14px; flex-wrap:wrap; }
+.tag { background:#f2f4f7; border-radius:6px; padding:5px 10px; font-size:12px; color:#333; }
+
+/* ===== Buttons ===== */
+.btn { display:inline-block; background:#0d1b3e; color:#fff; border:none; border-radius:6px; padding:10px 16px; font-size:14px; cursor:pointer; width:100%; text-align:center; }
+.btn-outline { background:#fff; color:#0d1b3e; border:1px solid #0d1b3e; width:auto; padding:6px 14px; font-size:13px; }
+
+/* ===== Tables ===== */
+table { width:100%; border-collapse:collapse; font-size:14px; }
+th { text-align:left; color:#666; font-size:13px; padding:10px 8px; border-bottom:1px solid #e4e7eb; }
+td { padding:12px 8px; border-bottom:1px solid #f0f0f0; vertical-align:middle; }
+.provider-thumb { width:34px; height:34px; border-radius:6px; display:inline-block; margin-right:10px; vertical-align:middle; background-size:cover; background-position:center; }
+
+.status { padding:4px 10px; border-radius:12px; font-size:12px; font-weight:bold; }
+.status-pending { background:#fdf1d3; color:#b8860b; }
+.status-approved { background:#dcf5e0; color:#1e8e3e; }
+.status-completed { background:#dbeafe; color:#2563eb; }
+
+/* ===== Profile ===== */
+.profile-top { display:flex; gap:16px; margin-bottom:16px; }
+.profile-avatar { width:70px; height:70px; border-radius:50%; overflow:hidden; flex-shrink:0; font-size:20px; }
+.profile-avatar img { width:100%; height:100%; object-fit:cover; display:block; }
+.profile-info p { font-size:14px; margin-bottom:6px; color:#333; }
+.profile-info span.label { display:inline-block; width:70px; color:#888; }
+
+/* ===== Promo ===== */
+.promo { background:#fdf0d5; border-radius:8px; padding:18px; display:flex; align-items:center; gap:14px; }
+.promo-icon { width:42px; height:42px; border-radius:50%; background:#f0b429; color:#fff; display:flex; align-items:center; justify-content:center; font-size:20px; flex-shrink:0; }
+.promo-text { flex:1; }
+.promo-text h3 { font-size:15px; margin-bottom:3px; }
+.promo-text p { font-size:13px; color:#555; }
+.promo .btn { width:auto; padding:10px 18px; }
+
+/* ===== Service page ===== */
+.service-head { height:80px; position:relative; background-size:cover; background-position:center; }
+.service-head::after { content:""; position:absolute; inset:0; background:rgba(13,27,62,0.45); }
+.service-head span { position:relative; z-index:2; display:flex; height:100%; align-items:center; justify-content:center; font-size:26px; }
+.service-card .provider-body { padding:16px; }
+.notice { margin-top:16px; background:#dcf5e0; color:#1e8e3e; border-radius:8px; padding:12px 16px; font-size:14px; }
+
+@media (max-width: 900px) {
+  .grid { grid-template-columns:1fr; }
+  .providers { grid-template-columns:1fr; }
+  .nav-links { display:none; }
+}
+
+/* =====================================================================
+   Single-page, no-JS view switching using the CSS :target pseudo-class.
+   Each "page" is a section with a unique id. Clicking a link like
+   <a href="#techfix"> changes the URL hash to #techfix, and the CSS
+   below shows the matching section and hides the home page — all
+   without any JavaScript.
+   ===================================================================== */
+.view-section { display: none; }
+#home { display: block; }
+
+#techfix:target,
+#homecare:target,
+#powerpro:target,
+#booking-success:target {
+  display: block;
+}
+
+#techfix:target ~ #home,
+#homecare:target ~ #home,
+#powerpro:target ~ #home,
+#booking-success:target ~ #home {
+  display: none;
+}

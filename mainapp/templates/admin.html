@@ -1,0 +1,1663 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Admin Dashboard | BookMyService</title>
+    <style>
+      :root {
+        --bg: #f1f5f9;
+        --card: #ffffff;
+        --border: #e2e8f0;
+        --border-soft: #eef0f2;
+        --text-primary: #0f172a;
+        --text-secondary: #64748b;
+        --text-muted: #94a3b8;
+        --sidebar-bg: #0f172a;
+        --sidebar-text: #94a3b8;
+        --shadow: 0 1px 2px rgba(15, 23, 42, 0.03);
+      }
+
+      [data-theme="dark"] {
+        --bg: #0b1120;
+        --card: #111827;
+        --border: #1f2a3d;
+        --border-soft: #1a2333;
+        --text-primary: #e2e8f0;
+        --text-secondary: #94a3b8;
+        --text-muted: #64748b;
+        --sidebar-bg: #070c18;
+        --sidebar-text: #8b96a8;
+        --shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: "Segoe UI", Arial, sans-serif;
+      }
+      body {
+        background: var(--bg);
+        transition: background 0.2s ease;
+      }
+      .layout {
+        display: flex;
+        min-height: 100vh;
+      }
+
+      /* ===== Sidebar ===== */
+      .sidebar {
+        width: 250px;
+        flex-shrink: 0;
+        background: var(--sidebar-bg);
+        display: flex;
+        flex-direction: column;
+        padding: 22px 16px;
+        position: sticky;
+        top: 0;
+        height: 100vh;
+        z-index: 40;
+      }
+      .sidebar-brand {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        padding: 6px 8px 22px;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+        margin-bottom: 18px;
+      }
+      .brand-icon {
+        width: 34px;
+        height: 34px;
+        border-radius: 9px;
+        background: linear-gradient(135deg, #1e293b, #0f172a);
+        border: 1px solid rgba(201, 162, 75, 0.35);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+      }
+      .brand-name {
+        color: #ffffff;
+        font-weight: 700;
+        font-size: 15.5px;
+        letter-spacing: -0.2px;
+      }
+      .sidebar-nav {
+        display: flex;
+        flex-direction: column;
+        gap: 2px;
+        flex: 1;
+        overflow-y: auto;
+      }
+      .nav-item {
+        display: flex;
+        align-items: center;
+        gap: 11px;
+        width: 100%;
+        padding: 10px 12px;
+        border-radius: 8px;
+        color: var(--sidebar-text);
+        font-size: 13.8px;
+        font-weight: 500;
+        text-decoration: none;
+        border: none;
+        background: none;
+        text-align: left;
+        cursor: pointer;
+        transition:
+          background 0.15s,
+          color 0.15s;
+      }
+      .nav-item svg {
+        flex-shrink: 0;
+      }
+      .nav-item:hover {
+        background: rgba(255, 255, 255, 0.05);
+        color: #e2e8f0;
+      }
+      .nav-item.active {
+        background: rgba(201, 162, 75, 0.14);
+        color: #e8c877;
+        font-weight: 600;
+      }
+      .logout-wrap {
+        margin-top: 14px;
+        border-top: 1px solid rgba(255, 255, 255, 0.08);
+        padding-top: 16px;
+      }
+      .nav-item.logout {
+        color: #f87171;
+      }
+      .nav-item.logout:hover {
+        background: rgba(248, 113, 113, 0.1);
+        color: #fca5a5;
+      }
+      .sidebar-overlay {
+        display: none;
+      }
+
+      /* ===== Main ===== */
+      .main {
+        flex: 1;
+        min-width: 0;
+        padding: 28px 36px 60px;
+      }
+      .topbar {
+        display: flex;
+        align-items: flex-start;
+        justify-content: space-between;
+        gap: 24px;
+        margin-bottom: 28px;
+        flex-wrap: wrap;
+      }
+      .topbar h1 {
+        font-size: 24px;
+        font-weight: 800;
+        color: var(--text-primary);
+        letter-spacing: -0.4px;
+      }
+      .topbar-sub {
+        font-size: 13.5px;
+        color: var(--text-secondary);
+        margin-top: 4px;
+      }
+      .topbar-right {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+      }
+      .topbar-search {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        background: var(--card);
+        border: 1px solid var(--border);
+        border-radius: 8px;
+        padding: 9px 14px;
+        width: 240px;
+        color: var(--text-muted);
+      }
+      .topbar-search input {
+        border: none;
+        outline: none;
+        font-size: 13.5px;
+        flex: 1;
+        color: var(--text-primary);
+        background: transparent;
+      }
+      .icon-btn {
+        position: relative;
+        width: 38px;
+        height: 38px;
+        border-radius: 8px;
+        background: var(--card);
+        border: 1px solid var(--border);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        color: var(--text-secondary);
+        flex-shrink: 0;
+      }
+      .icon-btn:hover {
+        color: var(--text-primary);
+      }
+      .icon-moon {
+        display: none;
+      }
+      [data-theme="dark"] .icon-sun {
+        display: none;
+      }
+      [data-theme="dark"] .icon-moon {
+        display: block;
+      }
+      .notif-dot {
+        position: absolute;
+        top: 8px;
+        right: 8px;
+        width: 7px;
+        height: 7px;
+        border-radius: 50%;
+        background: #e14b3d;
+        border: 1.5px solid var(--card);
+      }
+      .admin-chip {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        background: var(--card);
+        border: 1px solid var(--border);
+        border-radius: 10px;
+        padding: 6px 14px 6px 6px;
+      }
+      .admin-avatar {
+        width: 32px;
+        height: 32px;
+        border-radius: 50%;
+        background: #0f172a;
+        color: #e8c877;
+        font-size: 12px;
+        font-weight: 700;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+      }
+      .admin-name {
+        font-size: 13px;
+        font-weight: 700;
+        color: var(--text-primary);
+      }
+      .admin-role {
+        font-size: 11px;
+        color: var(--text-muted);
+      }
+
+      /* ===== Views ===== */
+      .view {
+        display: none;
+      }
+      .view.active {
+        display: block;
+      }
+
+      .page-heading {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 16px;
+        margin-bottom: 22px;
+        flex-wrap: wrap;
+      }
+      .page-heading h2 {
+        font-size: 19px;
+        font-weight: 700;
+        color: var(--text-primary);
+      }
+      .page-heading p {
+        font-size: 13px;
+        color: var(--text-secondary);
+        margin-top: 3px;
+      }
+
+      .primary-btn {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        background: #0f172a;
+        color: #fff;
+        border: none;
+        padding: 10px 16px;
+        border-radius: 8px;
+        font-size: 13px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: background 0.15s;
+      }
+      .primary-btn:hover {
+        background: #1e293b;
+      }
+
+      /* ===== Stat cards ===== */
+      .stats-grid {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 18px;
+        margin-bottom: 24px;
+      }
+      .stat-card {
+        background: var(--card);
+        border: 1px solid var(--border);
+        border-radius: 12px;
+        padding: 20px;
+        box-shadow: var(--shadow);
+      }
+      .stat-icon-wrap {
+        width: 38px;
+        height: 38px;
+        border-radius: 9px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 14px;
+      }
+      .stat-icon-wrap.blue {
+        background: #3b6ef0;
+      }
+      .stat-icon-wrap.gold {
+        background: #c9a24b;
+      }
+      .stat-icon-wrap.green {
+        background: #22a06b;
+      }
+      .stat-icon-wrap.red {
+        background: #e14b3d;
+      }
+      .stat-value {
+        font-size: 24px;
+        font-weight: 800;
+        color: var(--text-primary);
+        letter-spacing: -0.3px;
+      }
+      .stat-label {
+        font-size: 12.5px;
+        color: var(--text-secondary);
+        margin-top: 3px;
+      }
+      .stat-delta {
+        font-size: 11.5px;
+        color: var(--text-muted);
+        margin-top: 10px;
+        font-weight: 600;
+      }
+      .stat-delta.up {
+        color: #16a34a;
+      }
+
+      /* ===== Panels / tables ===== */
+      .content-grid {
+        display: grid;
+        grid-template-columns: 2fr 1fr;
+        gap: 20px;
+      }
+      .panel {
+        background: var(--card);
+        border: 1px solid var(--border);
+        border-radius: 12px;
+        padding: 22px;
+        box-shadow: var(--shadow);
+      }
+      .panel-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 16px;
+        gap: 12px;
+      }
+      .panel-header h2,
+      .panel-header h3 {
+        font-size: 15.5px;
+        font-weight: 700;
+        color: var(--text-primary);
+      }
+      .panel-link {
+        font-size: 12.5px;
+        font-weight: 600;
+        color: #c9791f;
+        text-decoration: none;
+      }
+      .panel-link:hover {
+        text-decoration: underline;
+      }
+
+      .search-mini {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        background: var(--bg);
+        border: 1px solid var(--border);
+        border-radius: 8px;
+        padding: 8px 12px;
+        max-width: 260px;
+        color: var(--text-muted);
+        margin-bottom: 16px;
+      }
+      .search-mini input {
+        border: none;
+        outline: none;
+        background: transparent;
+        font-size: 13px;
+        flex: 1;
+        color: var(--text-primary);
+      }
+
+      .table-state {
+        font-size: 13px;
+        color: var(--text-muted);
+        padding: 24px 4px;
+        text-align: center;
+      }
+      .table-state-error {
+        color: #dc2626;
+        cursor: pointer;
+        text-decoration: underline;
+      }
+
+      .table-scroll {
+        overflow-x: auto;
+      }
+      .data-table {
+        width: 100%;
+        border-collapse: collapse;
+        min-width: 480px;
+      }
+      .data-table th {
+        text-align: left;
+        font-size: 11px;
+        font-weight: 700;
+        color: var(--text-muted);
+        text-transform: uppercase;
+        letter-spacing: 0.6px;
+        padding: 0 10px 10px;
+        border-bottom: 1px solid var(--border-soft);
+        white-space: nowrap;
+      }
+      .data-table td {
+        padding: 12px 10px;
+        font-size: 13.5px;
+        color: var(--text-primary);
+        border-bottom: 1px solid var(--border-soft);
+      }
+      .data-table tr:last-child td {
+        border-bottom: none;
+      }
+
+      .badge {
+        display: inline-block;
+        padding: 3px 10px;
+        border-radius: 20px;
+        font-size: 11.5px;
+        font-weight: 700;
+        white-space: nowrap;
+      }
+      .badge.confirmed,
+      .badge.active,
+      .badge.completed {
+        background: #dcfce7;
+        color: #16803c;
+      }
+      .badge.pending,
+      .badge.progress {
+        background: #fef3c7;
+        color: #b45309;
+      }
+      .badge.cancelled,
+      .badge.inactive {
+        background: #fee2e2;
+        color: #c0392b;
+      }
+
+      .row-actions {
+        display: flex;
+        gap: 8px;
+      }
+      .icon-action {
+        width: 28px;
+        height: 28px;
+        border-radius: 6px;
+        border: 1px solid var(--border);
+        background: var(--card);
+        color: var(--text-secondary);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+      }
+      .icon-action:hover {
+        color: var(--text-primary);
+        background: var(--bg);
+      }
+
+      .category-list {
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+      }
+      .category-row {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+      .category-row span:first-child {
+        width: 118px;
+        flex-shrink: 0;
+        font-size: 12.5px;
+        color: var(--text-primary);
+        font-weight: 600;
+      }
+      .bar {
+        flex: 1;
+        height: 7px;
+        background: var(--border-soft);
+        border-radius: 10px;
+        overflow: hidden;
+      }
+      .bar-fill {
+        height: 100%;
+        background: linear-gradient(90deg, #c9a24b, #0f172a);
+        border-radius: 10px;
+      }
+      .bar-pct {
+        font-size: 11.5px;
+        font-weight: 700;
+        color: var(--text-secondary);
+        width: 32px;
+        text-align: right;
+        flex-shrink: 0;
+      }
+
+      /* Category cards (Categories view) */
+      .category-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
+        gap: 14px;
+      }
+      .category-card {
+        background: var(--card);
+        border: 1px solid var(--border);
+        border-radius: 12px;
+        padding: 16px;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        box-shadow: var(--shadow);
+      }
+      .category-card-top {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+      }
+      .category-icon {
+        width: 38px;
+        height: 38px;
+        border-radius: 9px;
+        background: rgba(201, 162, 75, 0.14);
+        color: #b8873a;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .category-name {
+        font-size: 14px;
+        font-weight: 700;
+        color: var(--text-primary);
+      }
+      .category-count {
+        font-size: 12px;
+        color: var(--text-secondary);
+      }
+      .category-card-actions {
+        display: flex;
+        gap: 8px;
+        margin-top: 4px;
+      }
+
+      /* Reviews */
+      .reviews-list {
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+      }
+      .review-card {
+        display: flex;
+        gap: 14px;
+        padding-bottom: 16px;
+        border-bottom: 1px solid var(--border-soft);
+      }
+      .review-card:last-child {
+        border-bottom: none;
+        padding-bottom: 0;
+      }
+      .review-avatar {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        background: #0f172a;
+        color: #e8c877;
+        font-size: 13px;
+        font-weight: 700;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+      }
+      .review-body {
+        flex: 1;
+        min-width: 0;
+      }
+      .review-top {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 10px;
+        margin-bottom: 4px;
+        flex-wrap: wrap;
+      }
+      .review-name {
+        font-size: 13.5px;
+        font-weight: 700;
+        color: var(--text-primary);
+      }
+      .review-stars {
+        color: #c9a24b;
+        font-size: 12px;
+        letter-spacing: 1px;
+        flex-shrink: 0;
+      }
+      .review-text {
+        font-size: 13px;
+        color: var(--text-secondary);
+        line-height: 1.55;
+      }
+      .review-service {
+        font-size: 11.5px;
+        color: var(--text-muted);
+        margin-top: 4px;
+      }
+
+      /* Service Approval */
+      .approval-card {
+        background: var(--card);
+        border: 1px solid var(--border);
+        border-radius: 12px;
+        padding: 22px;
+        box-shadow: var(--shadow);
+      }
+      .approval-actions {
+        display: flex;
+        gap: 8px;
+      }
+      .approval-btn {
+        border: none;
+        border-radius: 8px;
+        padding: 8px 12px;
+        font-size: 12.5px;
+        font-weight: 700;
+        cursor: pointer;
+        transition:
+          transform 0.15s ease,
+          opacity 0.15s ease;
+      }
+      .approval-btn:hover {
+        transform: translateY(-1px);
+      }
+      .approval-btn.approve {
+        background: #dcfce7;
+        color: #16803c;
+      }
+      .approval-btn.cancel {
+        background: #fee2e2;
+        color: #c0392b;
+      }
+
+      .mobile-toggle {
+        display: none;
+        position: fixed;
+        top: 16px;
+        left: 16px;
+        z-index: 50;
+        width: 40px;
+        height: 40px;
+        border-radius: 8px;
+        background: var(--sidebar-bg);
+        color: #fff;
+        border: none;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+      }
+
+      @media (max-width: 1100px) {
+        .stats-grid {
+          grid-template-columns: repeat(2, 1fr);
+        }
+        .content-grid {
+          grid-template-columns: 1fr;
+        }
+      }
+      @media (max-width: 800px) {
+        .sidebar {
+          position: fixed;
+          left: 0;
+          top: 0;
+          height: 100vh;
+          transform: translateX(-100%);
+          transition: transform 0.22s ease;
+        }
+        .sidebar.open {
+          transform: translateX(0);
+        }
+        .main {
+          padding: 70px 18px 40px;
+        }
+        .topbar-search {
+          display: none;
+        }
+        .mobile-toggle {
+          display: flex;
+        }
+        .sidebar-overlay.visible {
+          display: block;
+          position: fixed;
+          inset: 0;
+          background: rgba(15, 23, 42, 0.5);
+          z-index: 35;
+        }
+      }
+      @media (max-width: 480px) {
+        .admin-chip > div:last-child {
+          display: none;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <button class="mobile-toggle" id="mobileToggle" aria-label="Open menu">
+      <svg
+        viewBox="0 0 24 24"
+        width="20"
+        height="20"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+      >
+        <path d="M3 6h18M3 12h18M3 18h18" />
+      </svg>
+    </button>
+
+    <div class="layout">
+      <aside class="sidebar" id="sidebar">
+        <div class="sidebar-brand">
+          <div class="brand-icon">
+            <svg viewBox="0 0 56 56" width="22" height="22">
+              <path
+                d="M20 16 L20 40 M20 16 L28 16 Q34 16 34 21 Q34 26 28 26 L20 26 M20 26 L29 26 Q35 26 35 32 Q35 38 29 38 L20 38"
+                fill="none"
+                stroke="#c9a24b"
+                stroke-width="3.4"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+            </svg>
+          </div>
+          <span class="brand-name">BookMyService</span>
+        </div>
+
+        <nav class="sidebar-nav" id="sidebarNav">
+          <button type="button" class="nav-item active" data-view="dashboard">
+            <svg viewBox="0 0 24 24" width="18" height="18">
+              <rect
+                x="3"
+                y="3"
+                width="7"
+                height="9"
+                rx="1.5"
+                fill="currentColor"
+              />
+              <rect
+                x="14"
+                y="3"
+                width="7"
+                height="5"
+                rx="1.5"
+                fill="currentColor"
+              />
+              <rect
+                x="14"
+                y="12"
+                width="7"
+                height="9"
+                rx="1.5"
+                fill="currentColor"
+              />
+              <rect
+                x="3"
+                y="16"
+                width="7"
+                height="5"
+                rx="1.5"
+                fill="currentColor"
+              />
+            </svg>
+            Dashboard
+          </button>
+          <button type="button" class="nav-item" data-view="users">
+            <svg
+              viewBox="0 0 24 24"
+              width="18"
+              height="18"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.8"
+            >
+              <circle cx="9" cy="8" r="3.2" />
+              <path d="M3 20c0-3.6 2.7-6 6-6s6 2.4 6 6" />
+              <circle cx="17.5" cy="8.5" r="2.6" />
+              <path d="M15.3 14.2c2.7.2 5.2 2.2 5.2 5.8" />
+            </svg>
+            View All Users
+          </button>
+          <button type="button" class="nav-item" data-view="providers">
+            <svg
+              viewBox="0 0 24 24"
+              width="18"
+              height="18"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.8"
+            >
+              <rect x="3" y="7" width="18" height="13" rx="2" />
+              <path
+                d="M8 7V5.5A2.5 2.5 0 0 1 10.5 3h3A2.5 2.5 0 0 1 16 5.5V7"
+              />
+            </svg>
+            View All Service Providers
+          </button>
+          <button type="button" class="nav-item" data-view="employees">
+            <svg
+              viewBox="0 0 24 24"
+              width="18"
+              height="18"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.8"
+            >
+              <circle cx="12" cy="8" r="3.5" />
+              <path d="M5 20c0-4 3-6.5 7-6.5s7 2.5 7 6.5" />
+            </svg>
+            View All Employees
+          </button>
+         
+            View Reviews
+          </button>
+          <button type="button" class="nav-item" data-view="service-approval">
+            <svg
+              viewBox="0 0 24 24"
+              width="18"
+              height="18"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.8">
+              <path d="M5 12h14M12 5l7 7-7 7" />
+            </svg>
+            Service Approval
+          </button>
+        </nav>
+
+        <div class="logout-wrap">
+          <button class="nav-item logout" id="logoutBtn" type="button">
+            <svg
+              viewBox="0 0 24 24"
+              width="18"
+              height="18"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.8"
+            >
+              <path
+                d="M9 21H5.5A1.5 1.5 0 0 1 4 19.5v-15A1.5 1.5 0 0 1 5.5 3H9"
+              />
+              <path d="M16 17l5-5-5-5" />
+              <path d="M21 12H9" />
+            </svg>
+            Logout
+          </button>
+        </div>
+      </aside>
+
+      <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+      <div class="main">
+        <header class="topbar">
+          <div>
+            <h1 id="topbarTitle">Dashboard Overview</h1>
+            <p class="topbar-sub" id="topbarSub">
+              Welcome back, here's what's happening today.
+            </p>
+          </div>
+
+          <div class="topbar-right">
+            <div class="topbar-search">
+              <svg viewBox="0 0 24 24" width="16" height="16">
+                <circle
+                  cx="11"
+                  cy="11"
+                  r="7"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                />
+                <line
+                  x1="21"
+                  y1="21"
+                  x2="16.65"
+                  y2="16.65"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                />
+              </svg>
+              <input type="text" placeholder="Search users, bookings..." />
+            </div>
+
+            <button
+              class="icon-btn"
+              id="themeToggle"
+              aria-label="Toggle dark mode"
+            >
+              <svg
+                class="icon-sun"
+                viewBox="0 0 24 24"
+                width="18"
+                height="18"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.8"
+              >
+                <circle cx="12" cy="12" r="4.5" />
+                <path
+                  d="M12 2.5v2.5M12 19v2.5M4.2 4.2l1.8 1.8M18 18l1.8 1.8M2.5 12H5M19 12h2.5M4.2 19.8L6 18M18 6l1.8-1.8"
+                />
+              </svg>
+              <svg
+                class="icon-moon"
+                viewBox="0 0 24 24"
+                width="18"
+                height="18"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.8"
+              >
+                <path
+                  d="M20 14.5A8.5 8.5 0 1 1 9.5 4a6.8 6.8 0 0 0 10.5 10.5Z"
+                />
+              </svg>
+            </button>
+
+            <button class="icon-btn" aria-label="Notifications">
+              <svg
+                viewBox="0 0 24 24"
+                width="19"
+                height="19"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.8"
+              >
+                <path
+                  d="M6 9a6 6 0 0 1 12 0c0 4 1.5 5.5 1.5 5.5H4.5S6 13 6 9Z"
+                />
+                <path d="M10 19a2 2 0 0 0 4 0" />
+              </svg>
+              <span class="notif-dot"></span>
+            </button>
+
+            <div class="admin-chip">
+              <div class="admin-avatar">AD</div>
+              <div>
+                <div class="admin-name">Admin</div>
+                <div class="admin-role">Super Admin</div>
+              </div>
+            </div>
+          </div>
+        </header>
+
+        <!-- ===================== DASHBOARD VIEW ===================== -->
+        <section class="view active" data-view="dashboard">
+          <section class="stats-grid">
+            <div class="stat-card">
+              <div class="stat-icon-wrap blue">
+                <svg
+                  viewBox="0 0 24 24"
+                  width="20"
+                  height="20"
+                  fill="none"
+                  stroke="#ffffff"
+                  stroke-width="1.8"
+                >
+                  <circle cx="9" cy="8" r="3.2" />
+                  <path d="M3 20c0-3.6 2.7-6 6-6s6 2.4 6 6" />
+                  <circle cx="17.5" cy="8.5" r="2.6" />
+                  <path d="M15.3 14.2c2.7.2 5.2 2.2 5.2 5.8" />
+                </svg>
+              </div>
+              <div class="stat-value">{{ total_users }}</div>
+              <div class="stat-label">Total Users</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-icon-wrap gold">
+                <svg
+                  viewBox="0 0 24 24"
+                  width="20"
+                  height="20"
+                  fill="none"
+                  stroke="#ffffff"
+                  stroke-width="1.8"
+                >
+                  <rect x="3" y="7" width="18" height="13" rx="2" />
+                  <path
+                    d="M8 7V5.5A2.5 2.5 0 0 1 10.5 3h3A2.5 2.5 0 0 1 16 5.5V7"
+                  />
+                </svg>
+              </div>
+              <div class="stat-value">{{ total_service_providers }}</div>
+              <div class="stat-label">Service Providers</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-icon-wrap green">
+                <svg
+                  viewBox="0 0 24 24"
+                  width="20"
+                  height="20"
+                  fill="none"
+                  stroke="#ffffff"
+                  stroke-width="1.8"
+                >
+                  <rect x="3.5" y="4.5" width="17" height="16" rx="2" />
+                  <path d="M3.5 9.5h17" />
+                  <path d="M8 3v3M16 3v3" />
+                </svg>
+              </div>
+              <div class="stat-value">{{ total_bookings }}</div>
+              <div class="stat-label">Total Bookings</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-icon-wrap red">
+                <svg
+                  viewBox="0 0 24 24"
+                  width="20"
+                  height="20"
+                  fill="none"
+                  stroke="#ffffff"
+                  stroke-width="1.8"
+                >
+                  <path
+                    d="M12 2.5l2.6 5.7 6.2.6-4.7 4.1 1.4 6.1L12 15.9l-5.5 3.1 1.4-6.1-4.7-4.1 6.2-.6z"
+                  />
+                </svg>
+              </div>
+              <div class="stat-value">4.8 / 5</div>
+              <div class="stat-label">Average Rating</div>
+            </div>
+          </section>
+
+          <section class="content-grid">
+            <div class="panel">
+              <div class="panel-header">
+                <h2>Recent Bookings</h2>
+                <a href="#" class="panel-link" data-goto="bookings"
+                  >View All Bookings →</a
+                >
+              </div>
+              <div id="bookingsState" class="table-state">
+                Loading recent bookings…
+              </div>
+              <div class="table-scroll">
+                <table class="data-table" id="bookingsTable" hidden>
+                  <thead>
+                    <tr>
+                      <th>Customer</th>
+                      <th>Service</th>
+                      <th></th>
+                      <th>Date</th>
+                      <th>Status</th>
+                    </tr>
+                  </thead>
+                  <tbody id="bookingsBody"></tbody>
+                </table>
+              </div>
+            </div>
+          </section>
+        </section>
+
+        <!-- ===================== USERS VIEW ===================== -->
+        <section class="view" data-view="users">
+          <div class="page-heading">
+            <div>
+              <h2>All Users</h2>
+              <p>Everyone registered as a customer on BookMyService.</p>
+            </div>
+            <button class="primary-btn">
+              <svg
+                viewBox="0 0 24 24"
+                width="14"
+                height="14"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+              >
+                <path d="M12 5v14M5 12h14" />
+              </svg>
+              Add User
+            </button>
+          </div>
+          <div class="panel">
+            <div class="search-mini">
+              <svg viewBox="0 0 24 24" width="15" height="15">
+                <circle
+                  cx="11"
+                  cy="11"
+                  r="7"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                />
+                <line
+                  x1="21"
+                  y1="21"
+                  x2="16.65"
+                  y2="16.65"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                />
+              </svg>
+              <input type="text" placeholder="Search users..." />
+            </div>
+            <div class="table-scroll">
+              <table class="data-table">
+                <thead>
+                  <tr>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Phone</th>
+                    <th>Joined</th>
+                    <th>Status</th>
+                    <th></th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {% for customer in customers %}
+                  <tr>
+                    <td>{{ customer.user.username }}</td>
+                    <td>{{ customer.user.email }}</td>
+                    <td>{{ customer.phone|default:"Not provided" }}</td>
+                    <td>{{ customer.user.date_joined|date:"d M Y" }}</td>
+                    <td>
+                      {% if customer.user.is_active %}
+                      Active
+                      {% else %}
+                Inactive
+            {% endif %}
+        </td>
+    </tr>
+    {% empty %}
+    <tr>
+        <td colspan="5">No users found</td>
+    </tr>
+    {% endfor %}
+</tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+        <!-- ===================== SERVICE PROVIDERS VIEW ===================== -->
+        <section class="view" data-view="providers">
+          <div class="page-heading">
+            <div>
+              <h2>Service Providers</h2>
+              <p>
+                Businesses and technicians offering services on the platform.
+              </p>
+            </div>
+            <button class="primary-btn">
+              <svg
+                viewBox="0 0 24 24"
+                width="14"
+                height="14"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+              >
+                <path d="M12 5v14M5 12h14" />
+              </svg>
+              Add Provider
+            </button>
+          </div>
+          <div class="panel">
+            <div class="search-mini">
+              <svg viewBox="0 0 24 24" width="15" height="15">
+                <circle
+                  cx="11"
+                  cy="11"
+                  r="7"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                />
+                <line
+                  x1="21"
+                  y1="21"
+                  x2="16.65"
+                  y2="16.65"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                />
+              </svg>
+              <input type="text" placeholder="Search providers..." />
+            </div>
+            <div class="table-scroll">
+              <table class="data-table">
+                <thead>
+                  <tr>
+                    <th>Provider</th>
+                    <th>Category</th>
+                    <th>Email</th>
+                    <th>Bookings</th>
+                    <th>Status</th>
+                    <th></th>
+                  </tr>
+                </thead>
+                <tbody>
+                    {% for provider in providers %}
+                  <tr>
+                    <td>{{ provider.provider.username }}</td>
+                    <td>Electronics</td>
+                    <td>kiran@example.com</td>
+                    <td>412</td>
+                    <td><span class="badge active">Active</span></td>
+                    <td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+        <!-- ===================== EMPLOYEES VIEW ===================== -->
+        <section class="view" data-view="employees">
+          <div class="page-heading">
+            <div>
+              <h2>Employees</h2>
+              <p>Internal BookMyService staff and their roles.</p>
+            </div>
+            <button class="primary-btn">
+              <svg
+                viewBox="0 0 24 24"
+                width="14"
+                height="14"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+              >
+                <path d="M12 5v14M5 12h14" />
+              </svg>
+              Add Employee
+            </button>
+          </div>
+          <div class="panel">
+            <div class="table-scroll">
+              <table class="data-table">
+                <thead>
+                  <tr>
+                    <th>Name</th>
+                    <th>Role</th>
+                    <th>Email</th>
+                    <th>Department</th>
+                    <th>Status</th>
+                    <th></th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>Divya Krishnan</td>
+                    <td>Support Lead</td>
+                    <td>divya@bookmyservice.com</td>
+                    <td>Customer Support</td>
+                    <td><span class="badge active">Active</span></td>
+                    <td>
+                      <div class="row-actions">
+                        <button class="icon-action" title="Edit">✎</button
+                        ><button class="icon-action" title="Delete">✕</button>
+                      </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>Anoop Varma</td>
+                    <td>Field Coordinator</td>
+                    <td>anoop@bookmyservice.com</td>
+                    <td>Operations</td>
+                    <td><span class="badge active">Active</span></td>
+                    <td>
+                      <div class="row-actions">
+                        <button class="icon-action" title="Edit">✎</button
+                        ><button class="icon-action" title="Delete">✕</button>
+                      </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>Fathima Rasheed</td>
+                    <td>Onboarding Specialist</td>
+                    <td>fathima@bookmyservice.com</td>
+                    <td>Partnerships</td>
+                    <td><span class="badge inactive">On leave</span></td>
+                    <td>
+                      <div class="row-actions">
+                        <button class="icon-action" title="Edit">✎</button
+                        ><button class="icon-action" title="Delete">✕</button>
+                      </div>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+
+        <!-- ===================== REVIEWS VIEW ===================== -->
+        <section class="view" data-view="reviews">
+          <div class="page-heading">
+            <div>
+              <h2>Customer Reviews</h2>
+              <p>Feedback left by customers after completed bookings.</p>
+            </div>
+          </div>
+          <div class="panel">
+            <div class="reviews-list">
+              <div class="review-card">
+                <div class="review-avatar">AM</div>
+                <div class="review-body">
+                  <div class="review-top">
+                    <span class="review-name">Arjun Menon</span
+                    ><span class="review-stars">★★★★★</span>
+                  </div>
+                  <p class="review-text">
+                    Excellent and fast TV repair service. The technician was
+                    professional and explained everything clearly.
+                  </p>
+                  <p class="review-service">TV Repair · Kiran Electronics</p>
+                </div>
+              </div>
+              <div class="review-card">
+                <div class="review-avatar">ST</div>
+                <div class="review-body">
+                  <div class="review-top">
+                    <span class="review-name">Sara Thomas</span
+                    ><span class="review-stars">★★★★☆</span>
+                  </div>
+                  <p class="review-text">
+                    Good AC servicing overall, though the technician arrived a
+                    little later than the scheduled slot.
+                  </p>
+                  <p class="review-service">AC Servicing · CoolFix Services</p>
+                </div>
+              </div>
+              <div class="review-card">
+                <div class="review-avatar">RN</div>
+                <div class="review-body">
+                  <div class="review-top">
+                    <span class="review-name">Rahul Nair</span
+                    ><span class="review-stars">★★★★★</span>
+                  </div>
+                  <p class="review-text">
+                    Booking through BookMyService was seamless, and the plumber
+                    fixed the issue in under an hour.
+                  </p>
+                  <p class="review-service">Plumbing · QuickFix Home</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ===================== SERVICE APPROVAL VIEW ===================== -->
+        <section class="view" data-view="service-approval">
+          <div class="page-heading">
+            <div>
+              <h2>Service Approval</h2>
+              <p>Review new service submissions from service providers.</p>
+            </div>
+          </div>
+          <div class="approval-card">
+            <div class="table-scroll">
+              <table class="data-table">
+                <thead>
+                  <tr>
+                    <th>Service Name</th>
+                    <th>Price</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {% for i in services %}
+                  <tr>
+                    <td>{{ booking.user.username }}</td>
+                    <td>{{ booking.service_name }}</td>
+                    <td>{{ booking.status }}</td>
+                    <td>
+                      <div class="approval-actions">
+                        <button class="approval-btn approve" type="button">
+                          Approve
+                        </button>
+                        <a
+                          href="{% url 'deleteservice' i.id %}"
+                          class="approval-btn cancel"
+                          >Cancel</a
+                        >
+                      </div>
+                    </td>
+                  </tr>
+                  {% endfor %}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+      </div>
+    </div>
+
+    <script>
+      /* ---------- Sidebar: mobile open/close ---------- */
+      const sidebar = document.getElementById("sidebar");
+      const overlay = document.getElementById("sidebarOverlay");
+      const mobileToggle = document.getElementById("mobileToggle");
+
+      function openSidebar() {
+        sidebar.classList.add("open");
+        overlay.classList.add("visible");
+      }
+      function closeSidebar() {
+        sidebar.classList.remove("open");
+        overlay.classList.remove("visible");
+      }
+      mobileToggle.addEventListener("click", openSidebar);
+      overlay.addEventListener("click", closeSidebar);
+
+      /* ---------- View switching ---------- */
+      const navButtons = document.querySelectorAll("#sidebarNav .nav-item");
+      const views = document.querySelectorAll(".view");
+
+      const pageMeta = {
+        dashboard: {
+          title: "Dashboard Overview",
+          sub: "Welcome back, here's what's happening today.",
+        },
+        users: { title: "All Users", sub: "Manage every registered customer." },
+        providers: {
+          title: "Service Providers",
+          sub: "Manage businesses offering services on the platform.",
+        },
+        employees: {
+          title: "Employees",
+          sub: "Manage internal staff accounts.",
+        },
+        bookings: {
+          title: "All Bookings",
+          sub: "Every booking placed across the platform.",
+        },
+        categories: {
+          title: "Manage Categories",
+          sub: "Add, edit, or remove service categories.",
+        },
+        reviews: {
+          title: "Customer Reviews",
+          sub: "Feedback left after completed bookings.",
+        },
+        "service-approval": {
+          title: "Service Approval",
+          sub: "Review and act on service provider submissions.",
+        },
+      };
+
+      function showView(key) {
+        navButtons.forEach((btn) =>
+          btn.classList.toggle("active", btn.dataset.view === key),
+        );
+        views.forEach((v) =>
+          v.classList.toggle("active", v.dataset.view === key),
+        );
+        const meta = pageMeta[key];
+        if (meta) {
+          document.getElementById("topbarTitle").textContent = meta.title;
+          document.getElementById("topbarSub").textContent = meta.sub;
+        }
+        window.scrollTo({ top: 0, behavior: "smooth" });
+        closeSidebar();
+      }
+
+      navButtons.forEach((btn) => {
+        btn.addEventListener("click", () => showView(btn.dataset.view));
+      });
+
+      /* Links inside panels (e.g. "View All Bookings →") that jump to another view */
+      document.querySelectorAll("[data-goto]").forEach((link) => {
+        link.addEventListener("click", (e) => {
+          e.preventDefault();
+          showView(link.dataset.goto);
+        });
+      });
+
+      /* ---------- Logout ---------- */
+      document.getElementById("logoutBtn").addEventListener("click", () => {
+        if (confirm("Log out of the admin dashboard?")) {
+          alert("Logged out.");
+        }
+      });
+
+      /* ---------- Dark mode ---------- */
+      const themeToggle = document.getElementById("themeToggle");
+      const root = document.documentElement;
+      const savedTheme = localStorage.getItem("bms-theme");
+      if (
+        savedTheme === "dark" ||
+        (!savedTheme &&
+          window.matchMedia("(prefers-color-scheme: dark)").matches)
+      ) {
+        root.setAttribute("data-theme", "dark");
+      }
+      themeToggle.addEventListener("click", () => {
+        const isDark = root.getAttribute("data-theme") === "dark";
+        if (isDark) {
+          root.removeAttribute("data-theme");
+          localStorage.setItem("bms-theme", "light");
+        } else {
+          root.setAttribute("data-theme", "dark");
+          localStorage.setItem("bms-theme", "dark");
+        }
+      });
+
+      /* ---------- Recent bookings (Dashboard view) ---------- */
+      const BOOKINGS_ENDPOINT = "/api/bookings/recent/";
+      const SAMPLE_BOOKINGS = [
+        {
+          customer: " Menon",
+          service: "TV Repair",
+          provider: "Kiran Electronics",
+          date: "Aug 3, 2026",
+          status: "confirmed",
+        },
+        {
+          customer: "Sara Thomas",
+          service: "AC Servicing",
+          provider: "CoolFix Services",
+          date: "Aug 3, 2026",
+          status: "pending",
+        },
+        {
+          customer: "Rahul Nair",
+          service: "Plumbing",
+          provider: "QuickFix Home",
+          date: "Aug 2, 2026",
+          status: "confirmed",
+        },
+        {
+          customer: "Meera Pillai",
+          service: "Washing Machine Repair",
+          provider: "Home Appliance Care",
+          date: "Aug 2, 2026",
+          status: "cancelled",
+        },
+        {
+          customer: "Vishnu Das",
+          service: "Fridge Repair",
+          provider: "ColdTech Repairs",
+          date: "Aug 1, 2026",
+          status: "confirmed",
+        },
+      ];
+
+      const bookingsState = document.getElementById("bookingsState");
+      const bookingsTable = document.getElementById("bookingsTable");
+      const bookingsBody = document.getElementById("bookingsBody");
+
+      function statusBadge(status) {
+        const label = status.charAt(0).toUpperCase() + status.slice(1);
+        return `<span class="badge ${status}">${label}</span>`;
+      }
+      function renderBookings(bookings) {
+        if (!bookings.length) {
+          bookingsState.textContent = "No recent bookings yet.";
+          bookingsState.hidden = false;
+          bookingsTable.hidden = true;
+          return;
+        }
+        bookingsBody.innerHTML = bookings
+          .map(
+            (b) => `
+        <tr><td>${b.customer}</td><td>${b.service}</td><td>${b.provider}</td><td>${b.date}</td><td>${statusBadge(b.status)}</td></tr>
+    `,
+          )
+          .join("");
+        bookingsState.hidden = true;
+        bookingsTable.hidden = false;
+      }
+      async function loadRecentBookings() {
+        try {
+          const res = await fetch(BOOKINGS_ENDPOINT);
+          if (!res.ok) throw new Error("Request failed");
+          renderBookings(await res.json());
+        } catch (err) {
+          renderBookings(SAMPLE_BOOKINGS);
+        }
+      }
+      loadRecentBookings();
+
+      // Activate a specific admin panel when `?view=` query is present
+      (function () {
+        try {
+          const params = new URLSearchParams(window.location.search);
+          const view =
+            params.get("view") || window.location.hash.replace("#", "");
+          if (view) {
+            const btn = document.querySelector(
+              `#sidebarNav .nav-item[data-view="${view}"]`,
+            );
+            if (btn) {
+              btn.click();
+            } else {
+              const vw = document.querySelector(`.view[data-view="${view}"]`);
+              if (vw) {
+                document
+                  .querySelectorAll(".view")
+                  .forEach((v) => v.classList.remove("active"));
+                vw.classList.add("active");
+              }
+            }
+            // remove query string to keep URL tidy
+            history.replaceState(
+              null,
+              "",
+              window.location.pathname + (window.location.hash || ""),
+            );
+          }
+        } catch (e) {
+          /* ignore */
+        }
+      })();
+    </script>
+  </body>
+</html>

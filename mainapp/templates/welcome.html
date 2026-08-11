@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BookMyService | Home Appliance Repair & Services</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/welcome.css' %}">
+</head>
+<body>
+
+    <!-- Navbar -->
+    <header class="navbar">
+        <div class="navbar-left">
+                <span></span><span></span><span></span>
+            </button>
+            <a href="#" class="logo">
+                <svg viewBox="0 0 56 56" width="30" height="30">
+                    <rect x="2" y="2" width="52" height="52" rx="12" fill="#0f172a"/>
+                    <path d="M20 16 L20 40 M20 16 L28 16 Q34 16 34 21 Q34 26 28 26 L20 26 M20 26 L29 26 Q35 26 35 32 Q35 38 29 38 L20 38"
+                          fill="none" stroke="#c9a24b" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+                <span class="logo-text">BookMyService</span>
+            </a>
+        </div>
+
+        
+
+        <div class="navbar-right">
+            <a href="#" class="list-business-btn">List Your Services <span class="free-badge">FREE</span></a>
+            <div class="user-icon">
+                <svg viewBox="0 0 24 24" width="20" height="20">
+                    <circle cx="12" cy="8" r="4" fill="none" stroke="#334155" stroke-width="1.8"/>
+                    <path d="M4 20c0-4.4 3.6-7 8-7s8 2.6 8 7" fill="none" stroke="#334155" stroke-width="1.8" stroke-linecap="round"/>
+                </svg>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-left">
+            <h1>Trusted Service Booking Platform</h1>
+            <p class="hero-subline">349+ verified service partners near you</p>
+
+            <div class="stats">
+                <div class="stat-item">
+                    <div class="stat-icon">
+                        <svg viewBox="0 0 24 24" width="22" height="22">
+                            <circle cx="9" cy="8" r="3" fill="none" stroke="#0f172a" stroke-width="1.6"/>
+                            <circle cx="16" cy="9" r="2.4" fill="none" stroke="#0f172a" stroke-width="1.6"/>
+                            <path d="M3 19c0-3.3 2.7-5.5 6-5.5s6 2.2 6 5.5" fill="none" stroke="#0f172a" stroke-width="1.6" stroke-linecap="round"/>
+                            <path d="M14 19c0-2.4 1.6-4 4.2-4s3.8 1.6 3.8 4" fill="none" stroke="#0f172a" stroke-width="1.6" stroke-linecap="round"/>
+                        </svg>
+                    </div>
+                    <div>
+                        <div class="stat-title">68,000+ Happy Users</div>
+                        <div class="stat-sub">Trust built over time.</div>
+                    </div>
+                </div>
+
+                <div class="stat-item">
+                    <div class="stat-icon">
+                        <svg viewBox="0 0 24 24" width="22" height="22">
+                            <circle cx="12" cy="8" r="4" fill="none" stroke="#0f172a" stroke-width="1.6"/>
+                            <path d="M5 20c0-4 3-6.5 7-6.5s7 2.5 7 6.5" fill="none" stroke="#0f172a" stroke-width="1.6" stroke-linecap="round"/>
+                            <path d="M9.2 12 L11 13.6 L14.8 9.8" fill="none" stroke="#c9a24b" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </div>
+                    <div>
+                        <div class="stat-title">56,000+ Verified Experts</div>
+                        <div class="stat-sub">Quality you can rely on.</div>
+                    </div>
+                </div>
+
+                <div class="stat-item">
+                    <div class="stat-icon">
+                        <svg viewBox="0 0 24 24" width="22" height="22">
+                            <path d="M2 12 L8 12 L10 8 L14 16 L16 12 L22 12" fill="none" stroke="#0f172a" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </div>
+                    <div>
+                        <div class="stat-title">18+ Years of Expertise</div>
+                        <div class="stat-sub">Experience that empowers.</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="hero-right">
+            <div class="login-card">
+                <h2>Welcome Back</h2>
+                <p class="login-subtitle">Sign in to manage your bookings and services.</p>
+
+                <form action="{% url 'loginuser' %}" method="post">
+                    {% csrf_token %}
+                    <div class="form-group">
+                        <label for="email">Email Address</label>
+                        <input type="email" id="email" name="email" placeholder="john@example.com" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="password">Password</label>
+                        <input type="password" id="password" name="password" placeholder="••••••••" required>
+                    </div>
+
+                    <div class="form-options">
+                        <label class="remember-me">
+                            <input type="checkbox" name="remember">
+                            Remember me
+                        </label>
+                        <a href="#" class="forgot-link">Forgot password?</a>
+                    </div>
+
+                    <button type="submit" class="btn-submit">Sign In</button>
+                </form>
+
+                <div class="login-footer">
+                    Don't have an account? <a href="{%url 'signuppage' %}">Create one</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+</body>
+</html>

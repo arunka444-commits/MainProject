@@ -1,0 +1,159 @@
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:'Poppins',sans-serif;
+}
+
+body{
+    background:#ffffff;
+}
+
+/* NAVBAR */
+
+.navbar{
+    height:90px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:0 50px;
+    border-bottom:1px solid #e5e7eb;
+}
+
+.logo{
+    font-size:36px;
+    font-weight:700;
+    color:#0f172a;
+    cursor:pointer;
+}
+
+.search-box{
+    width:650px;
+    height:60px;
+    background:#f3f4f6;
+    border-radius:50px;
+    display:flex;
+    align-items:center;
+    padding:0 10px;
+}
+
+.search-box input{
+    flex:1;
+    border:none;
+    background:transparent;
+    outline:none;
+    font-size:16px;
+    padding-left:15px;
+}
+
+.search-box select{
+    border:none;
+    background:transparent;
+    font-size:15px;
+    outline:none;
+    cursor:pointer;
+}
+
+.search-box button{
+    width:50px;
+    height:50px;
+    border:none;
+    border-radius:50%;
+    background:#2563eb;
+    color:white;
+    cursor:pointer;
+    font-size:18px;
+}
+
+.nav-links{
+    display:flex;
+    gap:30px;
+}
+
+.nav-links a{
+    text-decoration:none;
+    color:#0f172a;
+    font-weight:600;
+}
+
+.auth-btns{
+    display:flex;
+    align-items:center;
+    gap:20px;
+}
+
+.auth-btns a{
+    text-decoration:none;
+    color:#0f172a;
+    font-weight:600;
+}
+
+.login-btn{
+    background:#0f172a;
+    color:white !important;
+    padding:14px 28px;
+    border-radius:50px;
+}
+
+/* FOOTER */
+
+.footer{
+    margin-top:120px;
+    padding:70px 100px;
+    background:#fff;
+    border-top:1px solid #e5e7eb;
+}
+
+.footer-top{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:80px;
+}
+
+.footer-logo{
+    font-size:42px;
+    font-weight:700;
+    color:#0f172a;
+}
+
+.footer-links{
+    display:flex;
+    gap:35px;
+}
+
+.footer-links a{
+    text-decoration:none;
+    color:#0f172a;
+    font-weight:600;
+}
+
+.social-icons{
+    display:flex;
+    gap:20px;
+    font-size:24px;
+    color:#0f172a;
+}
+
+.footer-bottom{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+}
+
+.left,
+.right{
+    display:flex;
+    gap:25px;
+    align-items:center;
+}
+
+.left a,
+.right a{
+    text-decoration:none;
+    color:#64748b;
+}
+
+.left{
+    color:#64748b;
+}

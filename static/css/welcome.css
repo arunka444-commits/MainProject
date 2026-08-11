@@ -1,0 +1,347 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Inter', 'Segoe UI', Arial, sans-serif;
+}
+
+body {
+    background: #fdf1e0;
+}
+
+/* ===== Navbar ===== */
+.navbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+    padding: 14px 32px;
+    background: #ffffff;
+    border-bottom: 1px solid #eef0f2;
+}
+
+.navbar-left {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+    flex-shrink: 0;
+}
+
+.menu-btn {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 4px;
+}
+
+.menu-btn span {
+    width: 20px;
+    height: 2px;
+    background: #1f2937;
+    border-radius: 2px;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    text-decoration: none;
+}
+
+.logo-text {
+    font-size: 19px;
+    font-weight: 800;
+    color: #0f172a;
+    letter-spacing: -0.3px;
+}
+
+.navbar-search {
+    flex: 1;
+    max-width: 480px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 16px;
+    border: 1px solid #dbe0e6;
+    border-radius: 8px;
+    background: #fff;
+}
+
+.navbar-search input {
+    flex: 1;
+    border: none;
+    outline: none;
+    font-size: 14px;
+    color: #1f2937;
+}
+
+.navbar-search input::placeholder {
+    color: #94a3b8;
+}
+
+.navbar-right {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+    flex-shrink: 0;
+}
+
+.list-business-btn {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 9px 16px;
+    background: #f1f5f9;
+    border-radius: 8px;
+    color: #0f172a;
+    font-size: 13.5px;
+    font-weight: 600;
+    text-decoration: none;
+    white-space: nowrap;
+}
+
+.free-badge {
+    background: #c9a24b;
+    color: #fff;
+    font-size: 10px;
+    font-weight: 700;
+    padding: 2px 6px;
+    border-radius: 4px;
+    letter-spacing: 0.3px;
+}
+
+.user-icon {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: #eef2f6;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+/* ===== Hero ===== */
+.hero {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 40px;
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 70px 32px;
+    flex-wrap: wrap;
+}
+
+.hero-left {
+    flex: 1;
+    min-width: 320px;
+}
+
+.hero-left h1 {
+    font-size: 42px;
+    font-weight: 800;
+    color: #0f172a;
+    line-height: 1.25;
+    letter-spacing: -0.5px;
+    margin-bottom: 14px;
+}
+
+.hero-subline {
+    font-size: 17px;
+    font-weight: 600;
+    color: #c9791f;
+    margin-bottom: 42px;
+}
+
+.stats {
+    display: flex;
+    flex-direction: column;
+    gap: 26px;
+}
+
+.stat-item {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.stat-icon {
+    width: 52px;
+    height: 52px;
+    border-radius: 50%;
+    background: #f9c983;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.stat-title {
+    font-size: 16.5px;
+    font-weight: 700;
+    color: #0f172a;
+}
+
+.stat-sub {
+    font-size: 13.5px;
+    color: #6b7280;
+    margin-top: 2px;
+}
+
+/* ===== Login Card (replaces service selector) ===== */
+.hero-right {
+    flex: 1;
+    min-width: 340px;
+    display: flex;
+    justify-content: center;
+}
+
+.login-card {
+    width: 100%;
+    max-width: 420px;
+    background: #ffffff;
+    border-radius: 16px;
+    padding: 40px 36px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04), 0 20px 48px rgba(15, 23, 42, 0.14);
+}
+
+.login-card h2 {
+    font-size: 24px;
+    font-weight: 800;
+    color: #0f172a;
+    margin-bottom: 6px;
+    letter-spacing: -0.3px;
+}
+
+.login-subtitle {
+    font-size: 14px;
+    color: #64748b;
+    margin-bottom: 28px;
+    line-height: 1.5;
+}
+
+.form-group {
+    margin-bottom: 18px;
+}
+
+.form-group label {
+    display: block;
+    font-size: 12.5px;
+    font-weight: 600;
+    color: #334155;
+    margin-bottom: 7px;
+}
+
+.form-group input {
+    width: 100%;
+    padding: 11px 14px;
+    font-size: 14px;
+    color: #0f172a;
+    background: #f8fafc;
+    border: 1px solid #cbd5e1;
+    border-radius: 7px;
+    outline: none;
+    transition: border-color 0.15s, box-shadow 0.15s, background 0.15s;
+}
+
+.form-group input:focus {
+    background: #fff;
+    border-color: #0f172a;
+    box-shadow: 0 0 0 3px rgba(15, 23, 42, 0.08);
+}
+
+.form-options {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 22px;
+    font-size: 13px;
+}
+
+.remember-me {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    color: #475569;
+    cursor: pointer;
+}
+
+.remember-me input {
+    accent-color: #0f172a;
+}
+
+.forgot-link {
+    color: #c9791f;
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.forgot-link:hover {
+    text-decoration: underline;
+}
+
+.btn-submit {
+    width: 100%;
+    padding: 13px;
+    background: #e14b3d;
+    color: #fff;
+    font-size: 15px;
+    font-weight: 700;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background 0.15s, transform 0.1s;
+}
+
+.btn-submit:hover {
+    background: #c93b2e;
+}
+
+.btn-submit:active {
+    transform: scale(0.99);
+}
+
+.login-footer {
+    text-align: center;
+    margin-top: 22px;
+    font-size: 13.5px;
+    color: #64748b;
+}
+
+.login-footer a {
+    color: #0f172a;
+    font-weight: 700;
+    text-decoration: none;
+}
+
+.login-footer a:hover {
+    text-decoration: underline;
+}
+
+/* ===== Responsive ===== */
+@media (max-width: 900px) {
+    .navbar-search {
+        display: none;
+    }
+    .hero {
+        padding: 40px 24px;
+    }
+    .hero-left h1 {
+        font-size: 32px;
+    }
+}
+
+@media (max-width: 480px) {
+    .list-business-btn span.free-badge {
+        display: none;
+    }
+    .login-card {
+        padding: 30px 24px;
+    }
+}

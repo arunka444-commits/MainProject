@@ -1,0 +1,213 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>ServiceHub Pro &mdash; Employee Dashboard</title>
+<link rel="stylesheet" href="{% static 'css/employee.css' %}"></head>
+</head>
+<body>
+
+  <header class="navbar">
+    <div class="navbar-inner">
+      <div class="brand"><span class="brand-mark">&#8962;</span>ServiceHub <span class="brand-tag">Pro</span></div>
+      <nav class="navlinks">
+        <span class="navlink navlink-active">Dashboard</span>
+        <span class="navlink">Jobs</span>
+        <span class="navlink">Earnings</span>
+        <span class="navlink">Schedule</span>
+      </nav>
+      <div class="navbar-actions">
+        <span class="icon-btn" title="Notifications">&#128276;<span class="notif-dot"></span></span>
+        <span class="employee-chip">
+          <span class="employee-chip-avatar">RS</span>
+          <span class="employee-chip-text">
+            <span class="employee-chip-name">Ravi Shankar</span>
+            <span class="employee-chip-role">HandyPro Fixers</span>
+          </span>
+        </span>
+      </div>
+    </div>
+  </header>
+
+  <main class="main">
+
+    <!-- ============ GREETING + DUTY STATUS ============ -->
+    <section class="greeting-row">
+      <div>
+        <p class="eyebrow">Friday, 7 August</p>
+        <h1 class="heading">Good morning, Ravi</h1>
+        <p class="subheading">You have 3 jobs today for HandyPro Fixers.</p>
+      </div>
+      <div class="duty-toggle">
+        <span class="duty-dot"></span>
+        On duty
+      </div>
+    </section>
+
+    <!-- ============ STATS ============ -->
+    <section class="stats-grid">
+      <div class="stat-card">
+        <p class="stat-label">Today's jobs</p>
+        <p class="stat-value">3</p>
+        <p class="stat-sub">1 completed &middot; 2 remaining</p>
+      </div>
+      <div class="stat-card">
+        <p class="stat-label">This week's earnings</p>
+        <p class="stat-value">&#8377;4,250</p>
+        <p class="stat-sub stat-sub-positive">&#8593; 12% vs last week</p>
+      </div>
+      <div class="stat-card">
+        <p class="stat-label">Rating</p>
+        <p class="stat-value">4.8 <span class="stat-star">&#9733;</span></p>
+        <p class="stat-sub">From 96 reviews</p>
+      </div>
+      <div class="stat-card">
+        <p class="stat-label">Completion rate</p>
+        <p class="stat-value">96%</p>
+        <p class="stat-sub">Last 30 days</p>
+      </div>
+    </section>
+
+    <div class="content-columns">
+
+      <!-- ============ JOBS COLUMN ============ -->
+      <div class="jobs-column">
+
+        <section class="panel">
+          <div class="panel-header">
+            <h2 class="panel-title">Today's jobs</h2>
+            <span class="panel-count">3</span>
+          </div>
+
+          <div class="job-card job-card-done">
+            <div class="job-time">
+              <span class="job-time-value">9:00 AM</span>
+              <span class="job-status job-status-done">Completed</span>
+            </div>
+            <div class="job-info">
+              <p class="job-service">Furniture assembly</p>
+              <p class="job-customer">Anjali Menon &middot; 12 Lake View Apartments</p>
+            </div>
+            <div class="job-action">
+              <span class="job-price">&#8377;499</span>
+            </div>
+          </div>
+
+          <div class="job-card job-card-active">
+            <div class="job-time">
+              <span class="job-time-value">11:30 AM</span>
+              <span class="job-status job-status-active">In progress</span>
+            </div>
+            <div class="job-info">
+              <p class="job-service">Wall mounting</p>
+              <p class="job-customer">Thomas George &middot; 4 Rose Garden Lane</p>
+            </div>
+            <div class="job-action">
+              <button class="job-btn job-btn-primary">Mark complete</button>
+            </div>
+          </div>
+
+          <div class="job-card">
+            <div class="job-time">
+              <span class="job-time-value">3:00 PM</span>
+              <span class="job-status job-status-pending">Upcoming</span>
+            </div>
+            <div class="job-info">
+              <p class="job-service">Furniture assembly</p>
+              <p class="job-customer">Fathima Beevi &middot; 9 Palm Residency</p>
+            </div>
+            <div class="job-action">
+              <button class="job-btn job-btn-secondary">Start job</button>
+            </div>
+          </div>
+        </section>
+
+        <section class="panel">
+          <div class="panel-header">
+            <h2 class="panel-title">Upcoming this week</h2>
+            <span class="panel-count">4</span>
+          </div>
+
+          <div class="job-card">
+            <div class="job-time">
+              <span class="job-time-value">Sat, 10:00 AM</span>
+              <span class="job-status job-status-pending">Scheduled</span>
+            </div>
+            <div class="job-info">
+              <p class="job-service">Wall mounting</p>
+              <p class="job-customer">Deepak Nair &middot; 21 Hillcrest Road</p>
+            </div>
+            <div class="job-action">
+              <span class="job-price">&#8377;399</span>
+            </div>
+          </div>
+
+          <div class="job-card">
+            <div class="job-time">
+              <span class="job-time-value">Sun, 1:00 PM</span>
+              <span class="job-status job-status-pending">Scheduled</span>
+            </div>
+            <div class="job-info">
+              <p class="job-service">Furniture assembly</p>
+              <p class="job-customer">Priya Suresh &middot; 7 Garden View</p>
+            </div>
+            <div class="job-action">
+              <span class="job-price">&#8377;499</span>
+            </div>
+          </div>
+        </section>
+
+      </div>
+
+      <!-- ============ SIDEBAR COLUMN ============ -->
+      <div class="side-column">
+
+        <section class="panel">
+          <div class="panel-header">
+            <h2 class="panel-title">Weekly earnings</h2>
+          </div>
+          <div class="bar-chart">
+            <div class="bar-row"><span class="bar-label">Mon</span><div class="bar-track"><div class="bar-fill" style="width: 55%"></div></div><span class="bar-value">&#8377;540</span></div>
+            <div class="bar-row"><span class="bar-label">Tue</span><div class="bar-track"><div class="bar-fill" style="width: 70%"></div></div><span class="bar-value">&#8377;690</span></div>
+            <div class="bar-row"><span class="bar-label">Wed</span><div class="bar-track"><div class="bar-fill" style="width: 40%"></div></div><span class="bar-value">&#8377;390</span></div>
+            <div class="bar-row"><span class="bar-label">Thu</span><div class="bar-track"><div class="bar-fill" style="width: 85%"></div></div><span class="bar-value">&#8377;820</span></div>
+            <div class="bar-row"><span class="bar-label">Fri</span><div class="bar-track"><div class="bar-fill bar-fill-today" style="width: 65%"></div></div><span class="bar-value">&#8377;610</span></div>
+            <div class="bar-row"><span class="bar-label">Sat</span><div class="bar-track"><div class="bar-fill bar-fill-muted" style="width: 25%"></div></div><span class="bar-value">&#8377;0</span></div>
+            <div class="bar-row"><span class="bar-label">Sun</span><div class="bar-track"><div class="bar-fill bar-fill-muted" style="width: 25%"></div></div><span class="bar-value">&#8377;0</span></div>
+          </div>
+        </section>
+
+        <section class="panel profile-panel">
+          <div class="panel-header">
+            <h2 class="panel-title">Your profile</h2>
+          </div>
+          <div class="profile-block">
+            <span class="profile-avatar">RS</span>
+            <div>
+              <p class="profile-name">Ravi Shankar</p>
+              <p class="profile-role">Handyman &middot; HandyPro Fixers</p>
+            </div>
+          </div>
+          <ul class="profile-list">
+            <li><span>Employee ID</span><span>HP-0042</span></li>
+            <li><span>Joined</span><span>Mar 2024</span></li>
+            <li><span>Phone</span><span>+91 98765 43210</span></li>
+            <li><span>Service area</span><span>Kottayam &middot; 8 km radius</span></li>
+          </ul>
+        </section>
+
+      </div>
+
+    </div>
+
+  </main>
+
+  <footer class="footer">
+    <div class="footer-links"><span>Help centre</span><span>Contact support</span><span>Terms</span></div>
+    <div class="footer-copy">&copy; 2026 ServiceHub Pro</div>
+  </footer>
+
+</body>
+</html>

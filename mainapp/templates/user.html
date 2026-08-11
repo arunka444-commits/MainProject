@@ -1,0 +1,375 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Service Providers — BookMyService</title>
+<link rel="stylesheet" href="{% static 'css/user.css' %}">
+</head>
+<body>
+
+{% if messages %}
+  <div class="messages">
+    {% for message in messages %}
+      <div class="notice">{{ message }}</div>
+    {% endfor %}
+  </div>
+{% endif %}
+
+<nav class="navbar">
+  <div class="logo">📋 BookMy<span>Service</span></div>
+  <div class="nav-links">
+    <a href="#home">Home</a>
+    <a href="#home" class="active">Service Providers</a>
+    <a href="#">My Bookings</a>
+    <a href="#">Profile</a>
+  </div>
+  <div class="nav-right">
+    <div>🔔</div>
+    <div class="nav-user">
+      <div class="avatar-round">
+        <img src="https://ui-avatars.com/api/?name=Arun+Kumar&background=f5a623&color=0d1b3e&bold=true" alt="Arun Kumar avatar" />
+      </div>
+      <span>Arun Kumar ▾</span>
+    </div>
+  </div>
+</nav>
+
+<!-- ================= TECHFIX SERVICES ================= -->
+<div class="page view-section" id="techfix">
+  <a class="link-blue" href="#home">← Back to Service Providers</a>
+  <div class="page-header" style="margin-top:10px">
+    <h1>💻 TechFix Solutions</h1>
+    <p>Expert in laptop, desktop and printer repair services. · ⭐ 4.8 · 📍 Chennai</p>
+  </div>
+  <div class="card" style="margin-top:24px">
+    <h2>Available Services (5)</h2>
+    <div class="providers">
+
+      <div class="provider-card service-card">
+        <div class="service-head" style="background-image:url('https://picsum.photos/seed/techfix/400/260')"><span>💻</span></div>
+        <div class="provider-body">
+          <h3>Laptop Repair</h3>
+          <p>By TechFix Solutions</p>
+          <div class="tags"><span class="tag">💰 ₹599</span><span class="tag">⏱ 1-2 hrs</span></div>
+          <a class="btn" href="{% url 'book_service' 'Laptop Repair' %}">Book Now</a>
+        </div>
+      </div>
+
+      <div class="provider-card service-card">
+        <div class="service-head" style="background-image:url('https://picsum.photos/seed/techfix/400/260')"><span>💻</span></div>
+        <div class="provider-body">
+          <h3>Desktop Repair</h3>
+          <p>By TechFix Solutions</p>
+          <div class="tags"><span class="tag">💰 ₹699</span><span class="tag">⏱ 1-2 hrs</span></div>
+          <a class="btn" href="{% url 'book_service' 'Desktop Repair' %}">Book Now</a>
+        </div>
+      </div>
+
+      <div class="provider-card service-card">
+        <div class="service-head" style="background-image:url('https://picsum.photos/seed/techfix/400/260')"><span>💻</span></div>
+        <div class="provider-body">
+          <h3>Printer Repair</h3>
+          <p>By TechFix Solutions</p>
+          <div class="tags"><span class="tag">💰 ₹499</span><span class="tag">⏱ 1 hr</span></div>
+          <a class="btn" href="{% url 'book_service' 'Printer Repair' %}">Book Now</a>
+        </div>
+      </div>
+
+      <div class="provider-card service-card">
+        <div class="service-head" style="background-image:url('https://picsum.photos/seed/techfix/400/260')"><span>💻</span></div>
+        <div class="provider-body">
+          <h3>Screen Replacement</h3>
+          <p>By TechFix Solutions</p>
+          <div class="tags"><span class="tag">💰 ₹2,499</span><span class="tag">⏱ 2 hrs</span></div>
+          <a class="btn" href="{% url 'book_service' 'Screen Replacement' %}">Book Now</a>
+        </div>
+      </div>
+
+      <div class="provider-card service-card">
+        <div class="service-head" style="background-image:url('https://picsum.photos/seed/techfix/400/260')"><span>💻</span></div>
+        <div class="provider-body">
+          <h3>Data Recovery</h3>
+          <p>By TechFix Solutions</p>
+          <div class="tags"><span class="tag">💰 ₹1,999</span><span class="tag">⏱ 1-2 days</span></div>
+          <a class="btn" href="{% url 'book_service' 'Data Recovery' %}">Book Now</a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- ================= HOMECARE SERVICES ================= -->
+<div class="page view-section" id="homecare">
+  <a class="link-blue" href="#home">← Back to Service Providers</a>
+  <div class="page-header" style="margin-top:10px">
+    <h1>🏠 HomeCare Experts</h1>
+    <p>We provide home appliances repair and maintenance. · ⭐ 4.6 · 📍 Chennai</p>
+  </div>
+  <div class="card" style="margin-top:24px">
+    <h2>Available Services (5)</h2>
+    <div class="providers">
+
+      <div class="provider-card service-card">
+        <div class="service-head" style="background-image:url('https://picsum.photos/seed/homecare/400/260')"><span>🏠</span></div>
+        <div class="provider-body">
+          <h3>AC Service &amp; Repair</h3>
+          <p>By HomeCare Experts</p>
+          <div class="tags"><span class="tag">💰 ₹799</span><span class="tag">⏱ 1-2 hrs</span></div>
+          <a class="btn" href="{% url 'book_service' 'AC Service &amp; Repair' %}">Book Now</a>
+        </div>
+      </div>
+
+      <div class="provider-card service-card">
+        <div class="service-head" style="background-image:url('https://picsum.photos/seed/homecare/400/260')"><span>🏠</span></div>
+        <div class="provider-body">
+          <h3>Refrigerator Repair</h3>
+          <p>By HomeCare Experts</p>
+          <div class="tags"><span class="tag">💰 ₹649</span><span class="tag">⏱ 1 hr</span></div>
+          <a class="btn" href="{% url 'book_service' 'Refrigerator Repair' %}">Book Now</a>
+        </div>
+      </div>
+
+      <div class="provider-card service-card">
+        <div class="service-head" style="background-image:url('https://picsum.photos/seed/homecare/400/260')"><span>🏠</span></div>
+        <div class="provider-body">
+          <h3>Washing Machine Repair</h3>
+          <p>By HomeCare Experts</p>
+          <div class="tags"><span class="tag">💰 ₹599</span><span class="tag">⏱ 1 hr</span></div>
+          <a class="btn" href="{% url 'book_service' 'Washing Machine Repair' %}">Book Now</a>
+        </div>
+      </div>
+
+      <div class="provider-card service-card">
+        <div class="service-head" style="background-image:url('https://picsum.photos/seed/homecare/400/260')"><span>🏠</span></div>
+        <div class="provider-body">
+          <h3>Microwave Oven Repair</h3>
+          <p>By HomeCare Experts</p>
+          <div class="tags"><span class="tag">💰 ₹499</span><span class="tag">⏱ 1 hr</span></div>
+          <a class="btn" href="{% url 'book_service' 'Microwave Oven Repair' %}">Book Now</a>
+        </div>
+      </div>
+
+      <div class="provider-card service-card">
+        <div class="service-head" style="background-image:url('https://picsum.photos/seed/homecare/400/260')"><span>🏠</span></div>
+        <div class="provider-body">
+          <h3>Water Purifier Service</h3>
+          <p>By HomeCare Experts</p>
+          <div class="tags"><span class="tag">💰 ₹399</span><span class="tag">⏱ 45 mins</span></div>
+          <a class="btn" href="{% url 'book_service' 'Water Purifier Service' %}">Book Now</a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- ================= POWERPRO SERVICES ================= -->
+<div class="page view-section" id="powerpro">
+  <a class="link-blue" href="#home">← Back to Service Providers</a>
+  <div class="page-header" style="margin-top:10px">
+    <h1>⚡ PowerPro Electricians</h1>
+    <p>Safe and reliable electrical installation and repair. · ⭐ 4.7 · 📍 Chennai</p>
+  </div>
+  <div class="card" style="margin-top:24px">
+    <h2>Available Services (5)</h2>
+    <div class="providers">
+
+      <div class="provider-card service-card">
+        <div class="service-head" style="background-image:url('https://picsum.photos/seed/powerpro/400/260')"><span>⚡</span></div>
+        <div class="provider-body">
+          <h3>Electrical Wiring</h3>
+          <p>By PowerPro Electricians</p>
+          <div class="tags"><span class="tag">💰 ₹1,499</span><span class="tag">⏱ 3-4 hrs</span></div>
+          <a class="btn" href="{% url 'book_service' 'Electrical Wiring' %}">Book Now</a>
+        </div>
+      </div>
+
+      <div class="provider-card service-card">
+        <div class="service-head" style="background-image:url('https://picsum.photos/seed/powerpro/400/260')"><span>⚡</span></div>
+        <div class="provider-body">
+          <h3>Switch &amp; Socket Repair</h3>
+          <p>By PowerPro Electricians</p>
+          <div class="tags"><span class="tag">💰 ₹299</span><span class="tag">⏱ 30 mins</span></div>
+          <a class="btn" href="{% url 'book_service' 'Switch &amp; Socket Repair' %}">Book Now</a>
+        </div>
+      </div>
+
+      <div class="provider-card service-card">
+        <div class="service-head" style="background-image:url('https://picsum.photos/seed/powerpro/400/260')"><span>⚡</span></div>
+        <div class="provider-body">
+          <h3>Ceiling Fan Installation</h3>
+          <p>By PowerPro Electricians</p>
+          <div class="tags"><span class="tag">💰 ₹449</span><span class="tag">⏱ 1 hr</span></div>
+          <a class="btn" href="{% url 'book_service' 'Ceiling Fan Installation' %}">Book Now</a>
+        </div>
+      </div>
+
+      <div class="provider-card service-card">
+        <div class="service-head" style="background-image:url('https://picsum.photos/seed/powerpro/400/260')"><span>⚡</span></div>
+        <div class="provider-body">
+          <h3>Light Installation</h3>
+          <p>By PowerPro Electricians</p>
+          <div class="tags"><span class="tag">💰 ₹349</span><span class="tag">⏱ 45 mins</span></div>
+          <a class="btn" href="{% url 'book_service' 'Light Installation' %}">Book Now</a>
+        </div>
+      </div>
+
+      <div class="provider-card service-card">
+        <div class="service-head" style="background-image:url('https://picsum.photos/seed/powerpro/400/260')"><span>⚡</span></div>
+        <div class="provider-body">
+          <h3>Inverter Installation &amp; Repair</h3>
+          <p>By PowerPro Electricians</p>
+          <div class="tags"><span class="tag">💰 ₹1,299</span><span class="tag">⏱ 2 hrs</span></div>
+          <a class="btn" href="{% url 'book_service' 'Inverter Installation &amp; Repair' %}">Book Now</a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- ================= BOOKING CONFIRMATION ================= -->
+<div class="page view-section" id="booking-success">
+  <div class="page-header">
+    <h1>Booking Requested</h1>
+    <p>Your booking request has been received.</p>
+  </div>
+  <div class="notice" style="margin-top:24px">✅ Booking request sent. The provider will confirm your appointment shortly.</div>
+  <div style="margin-top:24px">
+    <a class="link-blue" href="#home">← Back to Service Providers</a>
+  </div>
+</div>
+
+<!-- ================= HOME PAGE ================= -->
+<div class="page view-section" id="home">
+  <div class="page-header">
+    <h1>Service Providers</h1>
+    <p>Choose a trusted service provider and book the service you need.</p>
+  </div>
+
+  <div class="grid">
+    <div>
+      <div class="search-box">🔍 Search providers...</div>
+
+      <div class="card">
+        <h2>Top Service Providers</h2>
+        <div class="providers">
+
+          <div class="provider-card">
+            <div class="provider-img" style="background-image:url('https://picsum.photos/seed/techfix/400/260')">
+              <div class="rating-badge">⭐ 4.8</div>
+              <div class="icon-circle">💻</div>
+            </div>
+            <div class="provider-body">
+              <h3>TechFix Solutions</h3>
+              <p>Expert in laptop, desktop and printer repair services.</p>
+              <div class="tags"><span class="tag">⚙ 5 Services</span><span class="tag">📍 Chennai</span></div>
+              <a class="btn" href="#techfix">View Services</a>
+            </div>
+          </div>
+
+          <div class="provider-card">
+            <div class="provider-img" style="background-image:url('https://picsum.photos/seed/homecare/400/260')">
+              <div class="rating-badge">⭐ 4.6</div>
+              <div class="icon-circle">🏠</div>
+            </div>
+            <div class="provider-body">
+              <h3>HomeCare Experts</h3>
+              <p>We provide home appliances repair and maintenance.</p>
+              <div class="tags"><span class="tag">⚙ 5 Services</span><span class="tag">📍 Chennai</span></div>
+              <a class="btn" href="#homecare">View Services</a>
+            </div>
+          </div>
+
+          <div class="provider-card">
+            <div class="provider-img" style="background-image:url('https://picsum.photos/seed/powerpro/400/260')">
+              <div class="rating-badge">⭐ 4.7</div>
+              <div class="icon-circle">⚡</div>
+            </div>
+            <div class="provider-body">
+              <h3>PowerPro Electricians</h3>
+              <p>Safe and reliable electrical installation and repair.</p>
+              <div class="tags"><span class="tag">⚙ 5 Services</span><span class="tag">📍 Chennai</span></div>
+              <a class="btn" href="#powerpro">View Services</a>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <div class="card">
+        <h2>All Service Providers</h2>
+        <table>
+          <thead>
+            <tr><th>Provider</th><th>Rating</th><th>Services</th><th>Location</th><th>Action</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><span class="provider-thumb" style="background-image:url('https://picsum.photos/seed/techfix/80/80')"></span>TechFix Solutions</td>
+              <td>⭐ 4.8</td><td>5 Services</td><td>📍 Chennai</td>
+              <td><a class="btn btn-outline" href="#techfix">View Services</a></td>
+            </tr>
+            <tr>
+              <td><span class="provider-thumb" style="background-image:url('https://picsum.photos/seed/homecare/80/80')"></span>HomeCare Experts</td>
+              <td>⭐ 4.6</td><td>5 Services</td><td>📍 Chennai</td>
+              <td><a class="btn btn-outline" href="#homecare">View Services</a></td>
+            </tr>
+            <tr>
+              <td><span class="provider-thumb" style="background-image:url('https://picsum.photos/seed/powerpro/80/80')"></span>PowerPro Electricians</td>
+              <td>⭐ 4.7</td><td>5 Services</td><td>📍 Chennai</td>
+              <td><a class="btn btn-outline" href="#powerpro">View Services</a></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div>
+      <div class="card">
+        <div class="card-header">
+          <h2>My Bookings</h2>
+          <a class="link-blue" href="#">View All</a>
+        </div>
+        <table>
+          <thead><tr><th>Service</th><th>Provider</th><th>Date</th><th>Status</th></tr></thead>
+          <tbody>
+            <tr><td>Laptop Repair</td><td>TechFix Solutions</td><td>10 Aug 2025</td><td><span class="status status-pending">Pending</span></td></tr>
+            <tr><td>AC Service</td><td>HomeCare Experts</td><td>08 Aug 2025</td><td><span class="status status-approved">Approved</span></td></tr>
+            <tr><td>Electrical Repair</td><td>PowerPro Electricians</td><td>05 Aug 2025</td><td><span class="status status-completed">Completed</span></td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="card">
+        <h2>Profile Overview</h2>
+        <div class="profile-top">
+          <div class="profile-avatar">
+            <img src="https://ui-avatars.com/api/?name=Arun+Kumar&background=0d1b3e&color=fff&bold=true" alt="Arun Kumar profile photo" />
+          </div>
+          <div class="profile-info">
+            <p><span class="label">Name:</span> Arun Kumar</p>
+            <p><span class="label">Email:</span> arun.kumar@email.com</p>
+            <p><span class="label">Phone:</span> +91 98765 43210</p>
+            <p><span class="label">Address:</span> Chennai, Tamil Nadu</p>
+          </div>
+        </div>
+        <button class="btn btn-outline" type="button">Edit Profile</button>
+      </div>
+
+      <div class="promo">
+        <div class="promo-icon">🛡</div>
+        <div class="promo-text">
+          <h3>Quality Service, Your Satisfaction</h3>
+          <p>We connect you with verified and trusted service providers.</p>
+        </div>
+        <a class="btn" href="#home">Book Now</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>

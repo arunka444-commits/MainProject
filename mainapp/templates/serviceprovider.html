@@ -1,0 +1,252 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>BookMyService - Service Provider Dashboard</title>
+
+    <link rel="stylesheet" href="{% static 'css/serviceprovider.css' %}" />
+
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
+    />
+  </head>
+  <body>
+    <div class="dashboard-container">
+      <!-- Sidebar -->
+      <aside class="sidebar">
+        <div class="logo">
+          <i class="fa-solid fa-briefcase"></i>
+          <span>BookMyService</span>
+        </div>
+
+        <ul class="menu">
+          <li class="active">
+            <i class="fa-solid fa-table-columns"></i>
+            Dashboard
+          </li>
+
+          <li>
+            <i class="fa-solid fa-user"></i>
+            My Profile
+          </li>
+
+          <li>
+            <i class="fa-solid fa-screwdriver-wrench"></i>
+            Services
+          </li>
+
+          <li>
+            <i class="fa-solid fa-users"></i>
+            Employees
+          </li>
+
+          <li>
+            <i class="fa-solid fa-calendar-check"></i>
+            Bookings
+          </li>
+
+          <li class="logout">
+            <i class="fa-solid fa-right-from-bracket"></i>
+            Logout
+          </li>
+        </ul>
+      </aside>
+
+      <!-- Main Content -->
+      <main class="main-content">
+        <!-- Topbar -->
+        <div class="topbar">
+          <h2>Dashboard</h2>
+
+          <div class="top-icons">
+            <i class="fa-regular fa-bell"></i>
+
+            <div class="profile-circle">SP</div>
+          </div>
+        </div>
+
+        <!-- Stats -->
+        <div class="stats-grid">
+          <div class="stat-card">
+            <h3>6</h3>
+            <p>Total Services</p>
+          </div>
+
+          <div class="stat-card">
+            <h3>12</h3>
+            <p>Total Employees</p>
+          </div>
+
+          <div class="stat-card">
+            <h3>8</h3>
+            <p>Pending Bookings</p>
+          </div>
+
+          <div class="stat-card">
+            <h3>412</h3>
+            <p>Completed Bookings</p>
+          </div>
+        </div>
+
+        <!-- Profile -->
+        <section class="card profile-card">
+          <div class="card-header">
+            <h3>My Profile</h3>
+            <button>Edit Profile</button>
+          </div>
+
+          <div class="profile-grid">
+            <div>🏢 HomeFix Solutions</div>
+            <div>✉ homefix@gmail.com</div>
+            <div>📞 +91 9876543210</div>
+            <div>📍 Kochi, Kerala</div>
+          </div>
+        </section>
+
+        <!-- Services & Employees -->
+        <div class="two-column">
+          <!-- Services -->
+          <section class="card">
+            <div class="card-header">
+              <h3>Services</h3>
+              <a href="{% url 'addservice' %}"><button>Add Service</button></a>
+            </div>
+
+            <div class="service-item">
+              <span>AC Repair</span>
+
+              <div>
+                <i class="fa-solid fa-pen"></i>
+                <i class="fa-solid fa-trash"></i>
+              </div>
+            </div>
+
+            <div class="service-item">
+              <span>Refrigerator Repair</span>
+
+              <div>
+                <i class="fa-solid fa-pen"></i>
+                <i class="fa-solid fa-trash"></i>
+              </div>
+            </div>
+
+            <div class="service-item">
+              <span>Washing Machine Repair</span>
+
+              <div>
+                <i class="fa-solid fa-pen"></i>
+                <i class="fa-solid fa-trash"></i>
+              </div>
+            </div>
+          </section>
+
+          <!-- Employees -->
+          <section class="card">
+            <div class="card-header">
+              <h3>Employees</h3>
+              <button>Add Employee</button>
+            </div>
+
+            <table>
+              <thead>
+                <tr>
+                  <th>Name</th>
+                  <th>Service</th>
+                  <th>Status</th>
+                </tr>
+              </thead>
+
+              <tbody>
+                <tr>
+                  <td>Rahul</td>
+                  <td>AC Repair</td>
+                  <td>
+                    <span class="badge active"> Active </span>
+                  </td>
+                </tr>
+
+                <tr>
+                  <td>Arjun</td>
+                  <td>Fridge Repair</td>
+                  <td>
+                    <span class="badge active"> Active </span>
+                  </td>
+                </tr>
+
+                <tr>
+                  <td>Akash</td>
+                  <td>Washer Repair</td>
+                  <td>
+                    <span class="badge leave"> Leave </span>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </section>
+        </div>
+
+        <!-- Bookings -->
+
+        <section class="card booking-card">
+          <h3>Booking Request</h3>
+          <h2>Total Bookings: {{ bookings|length }}</h2>
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>Customer</th>
+                <th>Service</th>
+                <th>Date</th>
+                <th>Status</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+
+            <tbody></tbody>
+            <tbody>
+              {% for booking in bookings %}
+              <tr>
+                <td>{{ booking.id }}</td>
+                <td>{{ booking.user.username }}</td>
+                <td>{{ booking.service_name }}</td>
+                <td>{{ booking.status }}</td>
+                <td>{{ booking.created_at }}</td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </section>
+      </main>
+    </div>
+  </body>
+</html>
+
+<script>
+  function renderBookings(bookings) {
+    if (!bookings.length) {
+      bookingsState.textContent = "No recent bookings yet.";
+      bookingsState.hidden = false;
+      bookingsTable.hidden = true;
+      return;
+    }
+
+    bookingsBody.innerHTML = bookings
+      .map(
+        (b) => `
+        <tr>
+            <td>${b.customer}</td>
+            <td>${b.service}</td>
+            <td>${b.provider}</td>
+            <td>${b.date}</td>
+            <td>${statusBadge(b.status)}</td>
+        </tr>
+    `,
+      )
+      .join("");
+
+    bookingsState.hidden = true;
+    bookingsTable.hidden = false;
+  }
+</script>
