@@ -1,7 +1,7 @@
 from decimal import Decimal, InvalidOperation
 from django.http import JsonResponse
 from django.urls import reverse
-
+from django.contrib.auth import logout
 from django.contrib import auth, messages
 from django.contrib.auth.models import User
 from django.core.exceptions import ObjectDoesNotExist
@@ -21,7 +21,7 @@ def welcome(request):
 
 
 def adminpage(request):
-    services = ServiceModel.objects.all()
+    services = ServiceModel.objects.filter(status="Pending").order_by("-created_at")
     total_users = Profilee.objects.filter(role="USER").count()
     total_service_providers = Profilee.objects.filter(role="SERVICE_PROVIDER").count()
     total_bookings = Booking.objects.count()
@@ -61,25 +61,9 @@ def serviceproviderpage(request):
 def basepage(request):
     return render(request, "base.html")
 
-
-def addservice(request):
-    if request.method == "POST":
-        service_name = request.POST.get("service_name", "").strip()
-        description = request.POST.get("description", "").strip()
-        price_value = request.POST.get("price", "").strip() or "0"
-        try:
-            price = Decimal(price_value)
-        except (InvalidOperation, TypeError, ValueError):
-            price = Decimal("0")
-
-        service = ServiceModel(
-            service_name=service_name,
-            description=description,
-            price=price,
-        )
-        service.save()
-        return redirect("serviceproviderpage")
+def addservicepage(request):
     return render(request, "add_service.html")
+
 
 
 # login code
@@ -195,29 +179,45 @@ def loginuser(request):
 # addservicssavetodb
 
 
-def addservicedb(request):
+
+def addservice(request):
     if request.method == "POST":
-        servicename = request.POST.get("service_name", "").strip()
+        service_name = request.POST.get("service_name", "").strip()
+        category = request.POST.get("category", "").strip()
+        print("CATEGORY =", category)
         description = request.POST.get("description", "").strip()
         price_value = request.POST.get("price", "").strip() or "0"
+
         try:
             price = Decimal(price_value)
         except (InvalidOperation, TypeError, ValueError):
             price = Decimal("0")
 
-        details = ServiceModel(
-            service_name=servicename,
+
+        ServiceModel.objects.create(
+            service_provider=request.user,
+            service_name=service_name,
+            category=category,
             description=description,
             price=price,
-        )
-        details.save()
-        return redirect("serviceproviderpage")
+            )
+
     return redirect("serviceproviderpage")
+
+
+
 
 
 def addservicetable(request):
     services = ServiceModel.objects.all()
     return render(request, "add_service.html", {"services": services})
+
+
+def approve_service(request, service_id):
+    service = get_object_or_404(ServiceModel, id=service_id)
+    service.status = "Approved"
+    service.save()
+    return redirect(reverse("adminpage") + "?view=service-approval")
 
 
 def deleteservice(request, service_id):
@@ -354,3 +354,8 @@ def employee_list(request):
 
     print("employees:", employees.count())
     return render(request, "admin.html", {"employees": employees})
+
+#logout code
+def logout_view(request):
+    logout(request)
+    return redirect('welcome')

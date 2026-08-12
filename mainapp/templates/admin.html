@@ -877,7 +877,8 @@
         </nav>
 
         <div class="logout-wrap">
-          <button class="nav-item logout" id="logoutBtn" type="button">
+          <a href="{% url 'logout_view' %}">
+            <button class="nav-item logout" id="logoutBtn"  type="button">
             <svg
               viewBox="0 0 24 24"
               width="18"
@@ -894,6 +895,7 @@
             </svg>
             Logout
           </button>
+          </a>
         </div>
       </aside>
 
@@ -1359,32 +1361,37 @@
               <table class="data-table">
                 <thead>
                   <tr>
+                    <th>User</th>
                     <th>Service Name</th>
+                    <th>category</th>
                     <th>Price</th>
                     <th>Action</th>
                   </tr>
                 </thead>
                 <tbody>
-                  {% for i in services %}
-                  <tr>
-                    <td>{{ booking.user.username }}</td>
-                    <td>{{ booking.service_name }}</td>
-                    <td>{{ booking.status }}</td>
-                    <td>
-                      <div class="approval-actions">
-                        <button class="approval-btn approve" type="button">
-                          Approve
-                        </button>
-                        <a
-                          href="{% url 'deleteservice' i.id %}"
-                          class="approval-btn cancel"
-                          >Cancel</a
-                        >
-                      </div>
-                    </td>
-                  </tr>
-                  {% endfor %}
-                </tbody>
+    {% for service in services %}
+    <tr>
+        <td>{{ service.service_provider.username }}</td>
+        <td>{{ service.service_name }}</td>
+        <td>{{ service.category }}</td>
+        <td>₹{{ service.price }}</td>
+        <td>
+            <div class="approval-actions">
+                <a href="{% url 'approve_service' service.id %}" class="approval-btn approve">
+                    Approve
+                </a>
+                <a href="{% url 'deleteservice' service.id %}" class="approval-btn cancel">
+                    Reject
+                </a>
+            </div>
+        </td>
+    </tr>
+    {% empty %}
+    <tr>
+        <td colspan="5">No services found</td>
+    </tr>
+    {% endfor %}
+</tbody>
               </table>
             </div>
           </div>
