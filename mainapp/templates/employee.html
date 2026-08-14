@@ -2,212 +2,346 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>ServiceHub Pro &mdash; Employee Dashboard</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BookMyService — Dashboard</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tabler-icons/2.44.0/iconfont/tabler-icons.min.css">
 <link rel="stylesheet" href="{% static 'css/employee.css' %}"></head>
-</head>
 <body>
 
-  <header class="navbar">
-    <div class="navbar-inner">
-      <div class="brand"><span class="brand-mark">&#8962;</span>ServiceHub <span class="brand-tag">Pro</span></div>
-      <nav class="navlinks">
-        <span class="navlink navlink-active">Dashboard</span>
-        <span class="navlink">Jobs</span>
-        <span class="navlink">Earnings</span>
-        <span class="navlink">Schedule</span>
-      </nav>
-      <div class="navbar-actions">
-        <span class="icon-btn" title="Notifications">&#128276;<span class="notif-dot"></span></span>
-        <span class="employee-chip">
-          <span class="employee-chip-avatar">RS</span>
-          <span class="employee-chip-text">
-            <span class="employee-chip-name">Ravi Shankar</span>
-            <span class="employee-chip-role">HandyPro Fixers</span>
-          </span>
-        </span>
-      </div>
-    </div>
-  </header>
+<div class="dashboard">
 
-  <main class="main">
-
-    <!-- ============ GREETING + DUTY STATUS ============ -->
-    <section class="greeting-row">
+  <!-- Sidebar -->
+  <div class="sidebar">
+    <div class="brand">
+      <div class="brand-icon"><i class="ti ti-tool"></i></div>
       <div>
-        <p class="eyebrow">Friday, 7 August</p>
-        <h1 class="heading">Good morning, Ravi</h1>
-        <p class="subheading">You have 3 jobs today for HandyPro Fixers.</p>
+        <p class="brand-name">BookMyService</p>
+        <p class="brand-sub">Home appliance repair</p>
       </div>
-      <div class="duty-toggle">
-        <span class="duty-dot"></span>
-        On duty
-      </div>
-    </section>
+    </div>
 
-    <!-- ============ STATS ============ -->
-    <section class="stats-grid">
+    <div class="profile">
+      <div class="avatar"><i class="ti ti-user"></i></div>
+      <div>
+        <p class="profile-name">Arun Kumar</p>
+        <p class="profile-role">Employee</p>
+      </div>
+    </div>
+
+    <div class="nav">
+      <div class="nav-item active" data-view="dashboard"><i class="ti ti-layout-dashboard"></i>Dashboard</div>
+      <div class="nav-item" data-view="jobs"><i class="ti ti-briefcase"></i>My jobs</div>
+      <div class="nav-item" data-view="notifications"><i class="ti ti-bell"></i>Notifications</div>
+      <div class="nav-item" data-view="schedule"><i class="ti ti-calendar"></i>Schedule</div>
+      <div class="nav-item" data-view="settings"><i class="ti ti-settings"></i>Settings</div>
+      <div class="nav-item logout" id="logoutBtn"><i class="ti ti-logout"></i>Logout</div>
+    </div>
+  </div>
+
+  <!-- Main -->
+  <div class="main">
+
+    <div class="topbar">
+      <p class="page-title" id="pageTitle">Dashboard</p>
+      <div class="topbar-right">
+        <i class="ti ti-search"></i>
+        <div class="bell-wrap">
+          <i class="ti ti-bell"></i>
+          <span class="dot"></span>
+        </div>
+        <span class="date-label"><i class="ti ti-calendar"></i>12 August 2026</span>
+      </div>
+    </div>
+
+    <!-- Dashboard view -->
+    <section class="view active" id="view-dashboard">
+
+    <!-- Stat cards -->
+    <div class="stats-grid">
       <div class="stat-card">
-        <p class="stat-label">Today's jobs</p>
-        <p class="stat-value">3</p>
-        <p class="stat-sub">1 completed &middot; 2 remaining</p>
+        <div class="stat-icon stat-icon-blue"><i class="ti ti-clipboard-list"></i></div>
+        <div>
+          <p class="stat-label">Assigned jobs</p>
+          <p class="stat-value stat-value-blue">8</p>
+        </div>
       </div>
       <div class="stat-card">
-        <p class="stat-label">This week's earnings</p>
-        <p class="stat-value">&#8377;4,250</p>
-        <p class="stat-sub stat-sub-positive">&#8593; 12% vs last week</p>
+        <div class="stat-icon stat-icon-green"><i class="ti ti-check"></i></div>
+        <div>
+          <p class="stat-label">Completed jobs</p>
+          <p class="stat-value stat-value-green">5</p>
+        </div>
       </div>
       <div class="stat-card">
-        <p class="stat-label">Rating</p>
-        <p class="stat-value">4.8 <span class="stat-star">&#9733;</span></p>
-        <p class="stat-sub">From 96 reviews</p>
+        <div class="stat-icon stat-icon-amber"><i class="ti ti-hourglass"></i></div>
+        <div>
+          <p class="stat-label">Pending jobs</p>
+          <p class="stat-value stat-value-amber">3</p>
+        </div>
       </div>
       <div class="stat-card">
-        <p class="stat-label">Completion rate</p>
-        <p class="stat-value">96%</p>
-        <p class="stat-sub">Last 30 days</p>
+        <div class="stat-icon stat-icon-red"><i class="ti ti-star"></i></div>
+        <div>
+          <p class="stat-label">Avg rating</p>
+          <p class="stat-value stat-value-red">4.7</p>
+        </div>
       </div>
-    </section>
+    </div>
 
-    <div class="content-columns">
+    <!-- Content grid -->
+    <div class="content-grid">
 
-      <!-- ============ JOBS COLUMN ============ -->
-      <div class="jobs-column">
-
-        <section class="panel">
-          <div class="panel-header">
-            <h2 class="panel-title">Today's jobs</h2>
-            <span class="panel-count">3</span>
-          </div>
-
-          <div class="job-card job-card-done">
-            <div class="job-time">
-              <span class="job-time-value">9:00 AM</span>
-              <span class="job-status job-status-done">Completed</span>
-            </div>
-            <div class="job-info">
-              <p class="job-service">Furniture assembly</p>
-              <p class="job-customer">Anjali Menon &middot; 12 Lake View Apartments</p>
-            </div>
-            <div class="job-action">
-              <span class="job-price">&#8377;499</span>
-            </div>
-          </div>
-
-          <div class="job-card job-card-active">
-            <div class="job-time">
-              <span class="job-time-value">11:30 AM</span>
-              <span class="job-status job-status-active">In progress</span>
-            </div>
-            <div class="job-info">
-              <p class="job-service">Wall mounting</p>
-              <p class="job-customer">Thomas George &middot; 4 Rose Garden Lane</p>
-            </div>
-            <div class="job-action">
-              <button class="job-btn job-btn-primary">Mark complete</button>
-            </div>
-          </div>
-
-          <div class="job-card">
-            <div class="job-time">
-              <span class="job-time-value">3:00 PM</span>
-              <span class="job-status job-status-pending">Upcoming</span>
-            </div>
-            <div class="job-info">
-              <p class="job-service">Furniture assembly</p>
-              <p class="job-customer">Fathima Beevi &middot; 9 Palm Residency</p>
-            </div>
-            <div class="job-action">
-              <button class="job-btn job-btn-secondary">Start job</button>
-            </div>
-          </div>
-        </section>
-
-        <section class="panel">
-          <div class="panel-header">
-            <h2 class="panel-title">Upcoming this week</h2>
-            <span class="panel-count">4</span>
-          </div>
-
-          <div class="job-card">
-            <div class="job-time">
-              <span class="job-time-value">Sat, 10:00 AM</span>
-              <span class="job-status job-status-pending">Scheduled</span>
-            </div>
-            <div class="job-info">
-              <p class="job-service">Wall mounting</p>
-              <p class="job-customer">Deepak Nair &middot; 21 Hillcrest Road</p>
-            </div>
-            <div class="job-action">
-              <span class="job-price">&#8377;399</span>
-            </div>
-          </div>
-
-          <div class="job-card">
-            <div class="job-time">
-              <span class="job-time-value">Sun, 1:00 PM</span>
-              <span class="job-status job-status-pending">Scheduled</span>
-            </div>
-            <div class="job-info">
-              <p class="job-service">Furniture assembly</p>
-              <p class="job-customer">Priya Suresh &middot; 7 Garden View</p>
-            </div>
-            <div class="job-action">
-              <span class="job-price">&#8377;499</span>
-            </div>
-          </div>
-        </section>
-
+      <div class="panel">
+        <div class="panel-header">
+          <p class="panel-title">My jobs</p>
+          <select class="status-select" id="dashFilter">
+            <option value="all">All status</option>
+            <option value="pending">Pending</option>
+            <option value="completed">Completed</option>
+          </select>
+        </div>
+        <table class="jobs-table">
+          <tr class="table-head">
+            <td>Customer</td>
+            <td>Service</td>
+            <td>Status</td>
+            <td>Action</td>
+          </tr>
+          <tbody id="dashTableBody"></tbody>
+        </table>
       </div>
 
-      <!-- ============ SIDEBAR COLUMN ============ -->
-      <div class="side-column">
+      <div class="side-panels">
+        <div class="panel">
+          <p class="panel-title">Today's schedule</p>
+          <div id="dashSchedule"></div>
+        </div>
 
-        <section class="panel">
-          <div class="panel-header">
-            <h2 class="panel-title">Weekly earnings</h2>
-          </div>
-          <div class="bar-chart">
-            <div class="bar-row"><span class="bar-label">Mon</span><div class="bar-track"><div class="bar-fill" style="width: 55%"></div></div><span class="bar-value">&#8377;540</span></div>
-            <div class="bar-row"><span class="bar-label">Tue</span><div class="bar-track"><div class="bar-fill" style="width: 70%"></div></div><span class="bar-value">&#8377;690</span></div>
-            <div class="bar-row"><span class="bar-label">Wed</span><div class="bar-track"><div class="bar-fill" style="width: 40%"></div></div><span class="bar-value">&#8377;390</span></div>
-            <div class="bar-row"><span class="bar-label">Thu</span><div class="bar-track"><div class="bar-fill" style="width: 85%"></div></div><span class="bar-value">&#8377;820</span></div>
-            <div class="bar-row"><span class="bar-label">Fri</span><div class="bar-track"><div class="bar-fill bar-fill-today" style="width: 65%"></div></div><span class="bar-value">&#8377;610</span></div>
-            <div class="bar-row"><span class="bar-label">Sat</span><div class="bar-track"><div class="bar-fill bar-fill-muted" style="width: 25%"></div></div><span class="bar-value">&#8377;0</span></div>
-            <div class="bar-row"><span class="bar-label">Sun</span><div class="bar-track"><div class="bar-fill bar-fill-muted" style="width: 25%"></div></div><span class="bar-value">&#8377;0</span></div>
-          </div>
-        </section>
-
-        <section class="panel profile-panel">
-          <div class="panel-header">
-            <h2 class="panel-title">Your profile</h2>
-          </div>
-          <div class="profile-block">
-            <span class="profile-avatar">RS</span>
-            <div>
-              <p class="profile-name">Ravi Shankar</p>
-              <p class="profile-role">Handyman &middot; HandyPro Fixers</p>
-            </div>
-          </div>
-          <ul class="profile-list">
-            <li><span>Employee ID</span><span>HP-0042</span></li>
-            <li><span>Joined</span><span>Mar 2024</span></li>
-            <li><span>Phone</span><span>+91 98765 43210</span></li>
-            <li><span>Service area</span><span>Kottayam &middot; 8 km radius</span></li>
-          </ul>
-        </section>
-
+        <div class="panel">
+          <p class="panel-title">Notifications</p>
+          <div id="dashNotifs"></div>
+        </div>
       </div>
 
     </div>
+    </section>
 
-  </main>
+    <!-- My jobs view -->
+    <section class="view" id="view-jobs">
+      <div class="panel">
+        <div class="panel-header">
+          <p class="panel-title">All jobs</p>
+          <select class="status-select" id="jobsFilter">
+            <option value="all">All status</option>
+            <option value="pending">Pending</option>
+            <option value="completed">Completed</option>
+          </select>
+        </div>
+        <table class="jobs-table">
+          <tr class="table-head">
+            <td>Customer</td>
+            <td>Service</td>
+            <td>Status</td>
+            <td>Action</td>
+          </tr>
+          <tbody id="jobsTableBody"></tbody>
+        </table>
+      </div>
+    </section>
 
-  <footer class="footer">
-    <div class="footer-links"><span>Help centre</span><span>Contact support</span><span>Terms</span></div>
-    <div class="footer-copy">&copy; 2026 ServiceHub Pro</div>
-  </footer>
+    <!-- Notifications view -->
+    <section class="view" id="view-notifications">
+      <div class="panel">
+        <div class="panel-header">
+          <p class="panel-title">Notifications</p>
+          <button class="btn" id="clearNotifs">Mark all read</button>
+        </div>
+        <div id="notifList"></div>
+      </div>
+    </section>
+
+    <!-- Schedule view -->
+    <section class="view" id="view-schedule">
+      <div class="panel">
+        <p class="panel-title">Today's schedule — 12 August 2026</p>
+        <div id="scheduleList"></div>
+      </div>
+    </section>
+
+    <!-- Settings view -->
+    <section class="view" id="view-settings">
+      <div class="panel">
+        <p class="panel-title">Profile</p>
+        <div class="form-row">
+          <label>Full name</label>
+          <input type="text" value="Arun Kumar">
+        </div>
+        <div class="form-row">
+          <label>Email</label>
+          <input type="email" value="arun.kumar@bookmyservice.com">
+        </div>
+        <div class="form-row">
+          <label>Role</label>
+          <select><option>Employee</option><option>Team lead</option><option>Manager</option></select>
+        </div>
+        <button class="btn" id="saveProfile">Save changes</button>
+      </div>
+
+      <div class="panel">
+        <p class="panel-title">Preferences</p>
+        <div class="toggle-row">
+          <span>Email notifications</span>
+          <label class="switch"><input type="checkbox" checked><span class="slider"></span></label>
+        </div>
+        <div class="toggle-row">
+          <span>SMS alerts for new jobs</span>
+          <label class="switch"><input type="checkbox"><span class="slider"></span></label>
+        </div>
+        <div class="toggle-row">
+          <span>Dark mode</span>
+          <label class="switch"><input type="checkbox"><span class="slider"></span></label>
+        </div>
+      </div>
+    </section>
+
+    <p class="footer">© 2026 BookMyService. All rights reserved.</p>
+  </div>
+
+</div>
+
+<script>
+  // ---- Data ----
+  const jobs = [
+    { customer: "Arun", service: "AC repair", status: "pending" },
+    { customer: "John", service: "Laptop repair", status: "completed" },
+    { customer: "Kevin", service: "Washing machine", status: "pending" },
+    { customer: "Rohit", service: "Fridge repair", status: "completed" },
+  ];
+
+  const schedule = [
+    { time: "10:00", label: "AC repair — Arun" },
+    { time: "1:30", label: "Fridge check — Rohit" },
+    { time: "4:00", label: "Washer install — Kevin" },
+  ];
+
+  const notifications = [
+    { icon: "ti-alert-circle", color: "notif-icon-amber", text: "New job assigned: Fridge repair", read: false },
+    { icon: "ti-check", color: "notif-icon-green", text: "Job #204 marked completed", read: false },
+  ];
+
+  // ---- Jobs table ----
+  function renderJobsTable(tbodyEl, filter) {
+    tbodyEl.innerHTML = '';
+    const filtered = jobs.filter(j => filter === 'all' || j.status === filter);
+    if (filtered.length === 0) {
+      tbodyEl.innerHTML = `<tr><td colspan="4" style="text-align:center;padding:2rem;color:#999;">No jobs match this filter.</td></tr>`;
+      return;
+    }
+    filtered.forEach((j, i) => {
+      const tr = document.createElement('tr');
+      tr.className = 'table-row' + (i === filtered.length - 1 ? ' table-row-last' : '');
+      const badgeClass = j.status === 'pending' ? 'badge-pending' : 'badge-completed';
+      const badgeText = j.status === 'pending' ? 'Pending' : 'Completed';
+      const btnText = j.status === 'pending' ? 'Update' : 'View';
+      tr.innerHTML = `
+        <td>${j.customer}</td>
+        <td>${j.service}</td>
+        <td><span class="badge ${badgeClass}">${badgeText}</span></td>
+        <td><button class="btn job-action">${btnText}</button></td>
+      `;
+      tbodyEl.appendChild(tr);
+    });
+  }
+
+  const dashTableBody = document.getElementById('dashTableBody');
+  const jobsTableBody = document.getElementById('jobsTableBody');
+  renderJobsTable(dashTableBody, 'all');
+  renderJobsTable(jobsTableBody, 'all');
+
+  document.getElementById('dashFilter').addEventListener('change', e => renderJobsTable(dashTableBody, e.target.value));
+  document.getElementById('jobsFilter').addEventListener('change', e => renderJobsTable(jobsTableBody, e.target.value));
+
+  document.addEventListener('click', e => {
+    if (e.target.classList.contains('job-action')) {
+      const row = e.target.closest('tr');
+      const customer = row.children[0].textContent;
+      if (e.target.textContent === 'Update') {
+        const job = jobs.find(j => j.customer === customer && j.status === 'pending');
+        if (job) job.status = 'completed';
+        renderJobsTable(dashTableBody, document.getElementById('dashFilter').value);
+        renderJobsTable(jobsTableBody, document.getElementById('jobsFilter').value);
+      } else {
+        alert(`Viewing details for ${customer}'s job.`);
+      }
+    }
+  });
+
+  // ---- Schedule ----
+  function renderSchedule(el) {
+    el.innerHTML = schedule.map((s, i) => `
+      <div class="schedule-item${i === schedule.length - 1 ? ' schedule-item-last' : ''}">
+        <span class="schedule-time">${s.time}</span>
+        <span class="schedule-label">${s.label}</span>
+      </div>
+    `).join('');
+  }
+  renderSchedule(document.getElementById('dashSchedule'));
+  renderSchedule(document.getElementById('scheduleList'));
+
+  // ---- Notifications ----
+  function renderNotifs(el, compact) {
+    const list = compact ? notifications.slice(0, 2) : notifications;
+    el.innerHTML = list.map((n, i) => `
+      <div class="notif-item${(!compact && i === list.length - 1) ? ' notif-item-last' : ''}" style="opacity:${n.read ? 0.55 : 1}">
+        <i class="ti ${n.icon} ${n.color}"></i>
+        <span class="notif-text">${n.text}</span>
+      </div>
+    `).join('');
+  }
+  renderNotifs(document.getElementById('dashNotifs'), true);
+  renderNotifs(document.getElementById('notifList'), false);
+
+  document.getElementById('clearNotifs').addEventListener('click', () => {
+    notifications.forEach(n => n.read = true);
+    renderNotifs(document.getElementById('notifList'), false);
+    renderNotifs(document.getElementById('dashNotifs'), true);
+  });
+
+  // ---- Sidebar navigation ----
+  const navItems = document.querySelectorAll('.nav-item[data-view]');
+  const views = document.querySelectorAll('.view');
+  const titles = {
+    dashboard: 'Dashboard',
+    jobs: 'My jobs',
+    notifications: 'Notifications',
+    schedule: 'Schedule',
+    settings: 'Settings'
+  };
+
+  navItems.forEach(item => {
+    item.addEventListener('click', () => {
+      const target = item.dataset.view;
+      navItems.forEach(i => i.classList.remove('active'));
+      item.classList.add('active');
+      views.forEach(v => v.classList.remove('active'));
+      document.getElementById('view-' + target).classList.add('active');
+      document.getElementById('pageTitle').textContent = titles[target];
+    });
+  });
+
+  // ---- Settings save ----
+  document.getElementById('saveProfile').addEventListener('click', () => {
+    alert('Profile changes saved.');
+  });
+
+  // ---- Logout ----
+  document.getElementById('logoutBtn').addEventListener('click', () => {
+    if (confirm('Log out of BookMyService?')) {
+      alert('You have been logged out.');
+    }
+  });
+</script>
 
 </body>
 </html>

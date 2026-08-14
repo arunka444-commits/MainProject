@@ -42,8 +42,22 @@ def adminpage(request):
 
 
 def userpage(request):
-    return render(request, "user.html")
+    services = ServiceModel.objects.filter(status="Approved")
 
+    my_bookings = Booking.objects.filter(
+        user=request.user
+    ).order_by("-created_at")
+
+    context = {
+        "services": services,
+        "my_bookings": my_bookings,
+        "total_bookings": my_bookings.count(),
+        "pending_bookings": my_bookings.filter(status="Pending").count(),
+        "accepted_bookings": my_bookings.filter(status="Accepted").count(),
+        "completed_bookings": my_bookings.filter(status="Completed").count(),
+    }
+
+    return render(request, "user.html", context)
 
 def employeepage(request):
     return render(request, "employee.html")

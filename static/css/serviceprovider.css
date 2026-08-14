@@ -5,6 +5,11 @@
     font-family:'Segoe UI',sans-serif;
 }
 
+html, body{
+    height:100%;
+    overflow:hidden;
+}
+
 body{
     background:#f1f5f9;
 }
@@ -13,16 +18,18 @@ body{
 
 .dashboard-container{
     display:flex;
-    min-height:100vh;
+    height:100vh;
 }
 
 /* Sidebar */
 
 .sidebar{
     width:240px;
+    height:100vh;
     background:#0f172a;
     color:white;
     padding:20px;
+    overflow-y:auto;
 }
 
 .logo{
@@ -66,7 +73,7 @@ body{
     color:white;
 }
 
-.active{
+.menu li.active{
     background:#1e40af;
     color:white !important;
 }
@@ -79,7 +86,9 @@ body{
 
 .main-content{
     flex:1;
+    height:100vh;
     padding:30px;
+    overflow-y:auto;
 }
 
 /* Topbar */
@@ -117,13 +126,25 @@ body{
     font-weight:600;
 }
 
+/* Views — only the active section is shown, so the dashboard
+   page doesn't dump every menu's content on screen at once */
+
+.view{
+    display:none;
+    flex-direction:column;
+    gap:25px;
+}
+
+.view.active{
+    display:flex;
+}
+
 /* Stats */
 
 .stats-grid{
     display:grid;
     grid-template-columns:repeat(4,1fr);
     gap:20px;
-    margin-bottom:25px;
 }
 
 .stat-card{
@@ -150,10 +171,6 @@ body{
     border-radius:15px;
     padding:20px;
     box-shadow:0 2px 10px rgba(0,0,0,.08);
-}
-
-.profile-card{
-    margin-bottom:25px;
 }
 
 .card-header{
@@ -183,14 +200,7 @@ button:hover{
     gap:15px;
 }
 
-/* Services + Employees */
-
-.two-column{
-    display:grid;
-    grid-template-columns:1fr 1fr;
-    gap:25px;
-    margin-bottom:25px;
-}
+/* Services */
 
 .service-item{
     display:flex;
@@ -232,10 +242,6 @@ tbody tr:hover{
 
 /* Booking Table */
 
-.booking-card{
-    margin-bottom:30px;
-}
-
 .data-table{
     width:100%;
 }
@@ -269,7 +275,7 @@ tbody tr:hover{
     color:#dc2626;
 }
 
-.active{
+.badge.active{
     background:#dcfce7;
     color:#15803d;
 }
@@ -293,10 +299,6 @@ tbody tr:hover{
 
     .stats-grid{
         grid-template-columns:repeat(2,1fr);
-    }
-
-    .two-column{
-        grid-template-columns:1fr;
     }
 }
 

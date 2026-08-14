@@ -1158,7 +1158,7 @@
                 Businesses and technicians offering services on the platform.
               </p>
             </div>
-            <a href="{% url 'addservice' %}"><button class="primary-btn">
+            <a href="{% url 'signupuser' %}"><button class="primary-btn">
               <svg
                 viewBox="0 0 24 24"
                 width="14"
@@ -1200,7 +1200,7 @@
                 <thead>
                   <tr>
                     <th>Provider</th>
-                    <th>Category</th>
+                    <th>Email</th>
                     <th>Phone</th>
                     <th>Status</th>
                     <th></th>
@@ -1271,7 +1271,7 @@
                   <tr>
                     <td>{{ employee.user.username }}</td>
                     <td>{{ employee.user.email }}</td>
-                    <td>{{ employee.phone }}</td>
+                    <th>{{employee.user.phone}}</th>
                     <td>
                         {% if employee.user.is_active %}
                         <span class="badge active">Active</span>
@@ -1361,7 +1361,7 @@
               <table class="data-table">
                 <thead>
                   <tr>
-                    <th>User</th>
+                    <th>Service Provider</th>
                     <th>Service Name</th>
                     <th>category</th>
                     <th>Price</th>

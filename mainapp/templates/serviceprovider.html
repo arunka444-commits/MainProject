@@ -22,33 +22,33 @@
           <span>BookMyService</span>
         </div>
 
-        <ul class="menu">
-          <li class="active">
+        <ul class="menu" id="sideMenu">
+          <li class="active" data-view="dashboard">
             <i class="fa-solid fa-table-columns"></i>
             Dashboard
           </li>
 
-          <li>
+          <li data-view="profile">
             <i class="fa-solid fa-user"></i>
             My Profile
           </li>
 
-          <li>
+          <li data-view="services">
             <i class="fa-solid fa-screwdriver-wrench"></i>
             Services
           </li>
 
-          <li>
+          <li data-view="employees">
             <i class="fa-solid fa-users"></i>
             Employees
           </li>
 
-          <li>
+          <li data-view="bookings">
             <i class="fa-solid fa-calendar-check"></i>
             Bookings
           </li>
 
-          <li class="logout">
+          <li class="logout" id="logoutBtn">
             <i class="fa-solid fa-right-from-bracket"></i>
             Logout
           </li>
@@ -59,7 +59,7 @@
       <main class="main-content">
         <!-- Topbar -->
         <div class="topbar">
-          <h2>Dashboard(SERVICE PROVIDER)</h2>
+          <h2 id="pageTitle">Dashboard (SERVICE PROVIDER)</h2>
 
           <div class="top-icons">
             <i class="fa-regular fa-bell"></i>
@@ -68,47 +68,50 @@
           </div>
         </div>
 
-        <!-- Stats -->
-        <div class="stats-grid">
-          <div class="stat-card">
-            <h3>6</h3>
-            <p>Total Services</p>
-          </div>
+        <!-- Dashboard view -->
+        <section class="view active" id="view-dashboard">
+          <div class="stats-grid">
+            <div class="stat-card">
+              <h3>6</h3>
+              <p>Total Services</p>
+            </div>
 
-          <div class="stat-card">
-            <h3>12</h3>
-            <p>Total Employees</p>
-          </div>
+            <div class="stat-card">
+              <h3>12</h3>
+              <p>Total Employees</p>
+            </div>
 
-          <div class="stat-card">
-            <h3>8</h3>
-            <p>Pending Bookings</p>
-          </div>
+            <div class="stat-card">
+              <h3>8</h3>
+              <p>Pending Bookings</p>
+            </div>
 
-          <div class="stat-card">
-            <h3>412</h3>
-            <p>Completed Bookings</p>
-          </div>
-        </div>
-
-        <!-- Profile -->
-        <section class="card profile-card">
-          <div class="card-header">
-            <h3>My Profile</h3>
-            <button>Edit Profile</button>
-          </div>
-
-          <div class="profile-grid">
-            <div>🏢 HomeFix Solutions</div>
-            <div>✉ homefix@gmail.com</div>
-            <div>📞 +91 9876543210</div>
-            <div>📍 Kochi, Kerala</div>
+            <div class="stat-card">
+              <h3>412</h3>
+              <p>Completed Bookings</p>
+            </div>
           </div>
         </section>
 
-        <!-- Services & Employees -->
-        <div class="two-column">
-          <!-- Services -->
+        <!-- Profile view -->
+        <section class="view" id="view-profile">
+          <section class="card profile-card">
+            <div class="card-header">
+              <h3>My Profile</h3>
+              <button>Edit Profile</button>
+            </div>
+
+            <div class="profile-grid">
+              <div>🏢 HomeFix Solutions</div>
+              <div>✉ homefix@gmail.com</div>
+              <div>📞 +91 9876543210</div>
+              <div>📍 Kochi, Kerala</div>
+            </div>
+          </section>
+        </section>
+
+        <!-- Services view -->
+        <section class="view" id="view-services">
           <section class="card">
             <div class="card-header">
               <h3>Services</h3>
@@ -142,8 +145,10 @@
               </div>
             </div>
           </section>
+        </section>
 
-          <!-- Employees -->
+        <!-- Employees view -->
+        <section class="view" id="view-employees">
           <section class="card">
             <div class="card-header">
               <h3>Employees</h3>
@@ -186,67 +191,77 @@
               </tbody>
             </table>
           </section>
-        </div>
+        </section>
 
-        <!-- Bookings -->
+        <!-- Bookings view -->
+        <section class="view" id="view-bookings">
+          <section class="card booking-card">
+            <h3>Booking Request</h3>
+            <h2>Total Bookings: {{ bookings|length }}</h2>
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>Customer</th>
+                  <th>Service</th>
+                  <th>Date</th>
+                  <th>Status</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
 
-        <section class="card booking-card">
-          <h3>Booking Request</h3>
-          <h2>Total Bookings: {{ bookings|length }}</h2>
-          <table class="data-table">
-            <thead>
-              <tr>
-                <th>Customer</th>
-                <th>Service</th>
-                <th>Date</th>
-                <th>Status</th>
-                <th>Action</th>
-              </tr>
-            </thead>
-
-            <tbody></tbody>
-            <tbody>
-              {% for booking in bookings %}
-              <tr>
-                <td>{{ booking.id }}</td>
-                <td>{{ booking.user.username }}</td>
-                <td>{{ booking.service_name }}</td>
-                <td>{{ booking.status }}</td>
-                <td>{{ booking.created_at }}</td>
-              </tr>
-              {% endfor %}
-            </tbody>
-          </table>
+              <tbody>
+                {% for booking in bookings %}
+                <tr>
+                  <td>{{ booking.id }}</td>
+                  <td>{{ booking.user.username }}</td>
+                  <td>{{ booking.service_name }}</td>
+                  <td>{{ booking.status }}</td>
+                  <td>{{ booking.created_at }}</td>
+                </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          </section>
         </section>
       </main>
     </div>
+
+    <script>
+      // ---- Sidebar navigation: show only the selected view ----
+      const menuItems = document.querySelectorAll('#sideMenu li[data-view]');
+      const views = document.querySelectorAll('.view');
+      const pageTitle = document.getElementById('pageTitle');
+
+      const titles = {
+        dashboard: 'Dashboard (SERVICE PROVIDER)',
+        profile: 'My Profile',
+        services: 'Services',
+        employees: 'Employees',
+        bookings: 'Bookings',
+      };
+
+      menuItems.forEach((item) => {
+        item.addEventListener('click', () => {
+          const target = item.dataset.view;
+
+          menuItems.forEach((i) => i.classList.remove('active'));
+          item.classList.add('active');
+
+          views.forEach((v) => v.classList.remove('active'));
+          document.getElementById('view-' + target).classList.add('active');
+
+          pageTitle.textContent = titles[target];
+        });
+      });
+
+      // ---- Logout ----
+      document.getElementById('logoutBtn').addEventListener('click', () => {
+        if (confirm('Log out of BookMyService?')) {
+          
+          window.location.href = "{% url 'logout_view' %}";
+          alert('You have been logged out.');
+        }
+      });
+    </script>
   </body>
 </html>
-
-<script>
-  function renderBookings(bookings) {
-    if (!bookings.length) {
-      bookingsState.textContent = "No recent bookings yet.";
-      bookingsState.hidden = false;
-      bookingsTable.hidden = true;
-      return;
-    }
-
-    bookingsBody.innerHTML = bookings
-      .map(
-        (b) => `
-        <tr>
-            <td>${b.customer}</td>
-            <td>${b.service}</td>
-            <td>${b.provider}</td>
-            <td>${b.date}</td>
-            <td>${statusBadge(b.status)}</td>
-        </tr>
-    `,
-      )
-      .join("");
-
-    bookingsState.hidden = true;
-    bookingsTable.hidden = false;
-  }
-</script>
