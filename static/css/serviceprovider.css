@@ -320,3 +320,186 @@ tbody tr:hover{
         grid-template-columns:1fr;
     }
 }
+
+.btn-accept {
+    background: #28a745;
+    color: white;
+    border: none;
+    padding: 10px 18px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+.btn-accept:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 15px rgba(40, 167, 69, 0.3);
+}
+
+.btn-reject {
+    background: #dc3545;
+    color: white;
+    border: none;
+    padding: 10px 18px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+.btn-reject:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 15px rgba(220, 53, 69, 0.3);
+}
+
+
+/* ============================= */
+/* Assign Employee Modal */
+/* ============================= */
+
+.assign-modal {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.55);
+
+  align-items: center;
+  justify-content: center;
+
+  z-index: 9999;
+}
+
+.assign-modal.show {
+  display: flex;
+}
+
+.assign-modal-content {
+  width: 430px;
+  max-width: 90%;
+
+  background: #ffffff;
+  border-radius: 14px;
+
+  padding: 25px;
+
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.2);
+
+  animation: modalOpen 0.25s ease;
+}
+
+@keyframes modalOpen {
+
+  from {
+    opacity: 0;
+    transform: translateY(-15px) scale(0.97);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+
+}
+
+.assign-modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+
+  margin-bottom: 25px;
+}
+
+.assign-modal-header h3 {
+  margin: 0;
+  font-size: 20px;
+}
+
+.assign-modal-header p {
+  margin-top: 6px;
+  color: #777;
+  font-size: 14px;
+}
+
+.modal-close {
+  border: none;
+  background: transparent;
+
+  font-size: 20px;
+  cursor: pointer;
+
+  color: #777;
+}
+
+.modal-close:hover {
+  color: #111;
+}
+
+.form-group {
+  margin-bottom: 25px;
+}
+
+.form-group label {
+  display: block;
+
+  font-size: 14px;
+  font-weight: 600;
+
+  margin-bottom: 8px;
+}
+
+.form-group select {
+  width: 100%;
+
+  padding: 12px 14px;
+
+  border: 1px solid #ddd;
+  border-radius: 8px;
+
+  font-size: 14px;
+
+  background: white;
+
+  outline: none;
+}
+
+.form-group select:focus {
+  border-color: #c9a24b;
+}
+
+.modal-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+}
+
+.btn-cancel,
+.btn-confirm {
+  border: none;
+
+  padding: 10px 16px;
+
+  border-radius: 7px;
+
+  cursor: pointer;
+
+  font-size: 14px;
+}
+
+.btn-cancel {
+  background: #eee;
+}
+
+.btn-confirm {
+  background: #c9a24b;
+  color: white;
+}
+
+.btn-confirm:hover {
+  opacity: 0.9;
+}
+
+.assigned-text {
+  font-size: 13px;
+  font-weight: 600;
+}

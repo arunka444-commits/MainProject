@@ -24,4 +24,7 @@ urlpatterns = [
   path('all_users/', views.all_users, name='all_users'),
   path('addservicepage/', views.addservicepage, name='addservicepage'),
   path('logout_view/', views.logout_view, name='logout_view'),
+    path("book-service/<int:service_id>/",views.book_service,name="book_service"),
+    path('assign_employee/<int:booking_id>/',views.assign_employee,name='assign_employee'),
+
 ]

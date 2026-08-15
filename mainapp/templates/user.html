@@ -1,162 +1,135 @@
-
-
 {% load static %}
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>User Dashboard | BookMyService</title>
-    <link rel="stylesheet" href="{% static 'css/user.css' %}">
-</head>
-<body>
+    <link rel="stylesheet" href="{% static 'css/user.css' %}" />
+  </head>
+  <body>
+    <nav class="navbar">
+      <div class="logo">BookMy<span>Service</span></div>
 
-<nav class="navbar">
-    <div class="logo">
-        BookMy<span>Service</span>
-    </div>
-
-    <div class="nav-links">
-        <a href="#">Dashboard</a>
-        <a href="#">Services</a>
-        <a href="#">Bookings</a>
+      <div class="nav-links">
+        <a href="#" class="active">Dashboard</a>
         <a href="{% url 'logout_view' %}">Logout</a>
-    </div>
-</nav>
+      </div>
+    </nav>
 
-<div class="page">
-
-    <div class="page-header">
-        <h1>Welcome, {{ request.user.first_name|default:request.user.username }}</h1>
+    <div class="page">
+      <div class="page-header">
+        <h1>
+          Welcome, {{ request.user.first_name|default:request.user.username }}
+        </h1>
         <p>Find trusted services and manage your bookings.</p>
-    </div>
+      </div>
 
-    <div class="stats-grid">
-
+      <div class="stats-grid">
         <div class="stat-card">
-            <h3>{{ total_bookings }}</h3>
-            <p>Total Bookings</p>
+          <h3>{{ total_bookings }}</h3>
+          <p>Total Bookings</p>
         </div>
-
         <div class="stat-card">
-            <h3>{{ pending_bookings }}</h3>
-            <p>Pending</p>
+          <h3>{{ pending_bookings }}</h3>
+          <p>Pending</p>
         </div>
-
         <div class="stat-card">
-            <h3>{{ accepted_bookings }}</h3>
-            <p>Accepted</p>
+          <h3>{{ accepted_bookings }}</h3>
+          <p>Accepted</p>
         </div>
-
         <div class="stat-card">
-            <h3>{{ completed_bookings }}</h3>
-            <p>Completed</p>
+          <h3>{{ completed_bookings }}</h3>
+          <p>Completed</p>
         </div>
+      </div>
 
-    </div>
+      {% if messages %} {% for message in messages %}
+      <div class="notice">{{ message }}</div>
+      {% endfor %} {% endif %}
 
-    {% if messages %}
-        {% for message in messages %}
-            <div class="notice">
-                {{ message }}
-            </div>
-        {% endfor %}
-    {% endif %}
-
-    <div class="card">
-        <h2>Available Services</h2>
+      <div class="card">
+        <h2>Service Providers</h2>
 
         <div class="providers">
+          {% for provider in providers %}
+          <details class="provider-card">
+            <summary class="provider-summary">
+              <div class="icon-circle">{{ provider.username|first|upper }}</div>
+              <div class="provider-body">
+                <h3>{{ provider.get_full_name|default:provider.username }}</h3>
+                <p>Total Services: {{ provider.approved_services|length }}</p>
+              </div>
+            </summary>
 
-            {% for service in services %}
-            <div class="provider-card">
-
+            <div class="provider-services">
+              {% for service in provider.approved_services %}
+              <div class="provider-card service-card">
                 <div class="provider-body">
+                  <h3>{{ service.service_name }}</h3>
+                  <p>{{ service.description }}</p>
 
-                    <h3>{{ service.service_name }}</h3>
+                  <div class="tags">
+                    <span class="tag">{{ service.category }}</span>
+                    <span class="tag">₹{{ service.price }}</span>
+                  </div>
 
-                    <p>{{ service.description }}</p>
-
-                    <div class="tags">
-                        <span class="tag">{{ service.category }}</span>
-                        <span class="tag">₹{{ service.price }}</span>
-                    </div>
-
-                    <a class="btn"
-                       href="{% url 'book_service' service.service_name %}">
-                        Book Now
-                    </a>
-
+                  <a class="btn" href="{% url 'book_service' service.id %}">
+                    Book Now
+                  </a>
                 </div>
-
+              </div>
+              {% empty %}
+              <p>No services listed yet.</p>
+              {% endfor %}
             </div>
-
-            {% empty %}
-
-            <p>No approved services available.</p>
-
-            {% endfor %}
-
+          </details>
+          {% empty %}
+          <p>No service providers registered yet.</p>
+          {% endfor %}
         </div>
-    </div>
+      </div>
 
-    <div class="card">
-
+      <div class="card">
         <h2>My Bookings</h2>
 
         <table>
-
-            <thead>
-                <tr>
-                    <th>Service</th>
-                    <th>Provider</th>
-                    <th>Date</th>
-                    <th>Status</th>
-                </tr>
-            </thead>
-
-            <tbody>
-
-                {% for booking in my_bookings %}
-
-                <tr>
-                    <td>{{ booking.service_name }}</td>
-                    <td>{{ booking.service_provider.username }}</td>
-                    <td>{{ booking.created_at|date:"d M Y" }}</td>
-                    <td>{{ booking.status }}</td>
-                </tr>
-
-                {% empty %}
-
-                <tr>
-                    <td colspan="4">
-                        No bookings found
-                    </td>
-                </tr>
-
-                {% endfor %}
-
-            </tbody>
-
+          <thead>
+            <tr>
+              <th>Service</th>
+              <th>Provider</th>
+              <th>Date</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for booking in my_bookings %}
+            <tr>
+              <td>{{ booking.service_name }}</td>
+              <td>{{ booking.service_provider.username }}</td>
+              <td>{{ booking.created_at|date:"d M Y" }}</td>
+              <td>
+                <span class="status status-{{ booking.status|lower }}">
+                  {{ booking.status }}
+                </span>
+              </td>
+            </tr>
+            {% empty %}
+            <tr>
+              <td colspan="4">No bookings found</td>
+            </tr>
+            {% endfor %}
+          </tbody>
         </table>
+      </div>
 
-    </div>
-
-    <div class="card">
-
+      <div class="card">
         <h2>Profile Overview</h2>
-
         <p><strong>Username:</strong> {{ request.user.username }}</p>
-
         <p><strong>Email:</strong> {{ request.user.email }}</p>
-
         <p><strong>First Name:</strong> {{ request.user.first_name }}</p>
-
         <p><strong>Last Name:</strong> {{ request.user.last_name }}</p>
-
+      </div>
     </div>
-
-</div>
-
-</body>
+  </body>
 </html>

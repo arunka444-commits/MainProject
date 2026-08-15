@@ -1,73 +1,119 @@
 {% load static %}
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Add Service | BookMyService</title>
 
-    <link rel="stylesheet" href="{% static 'css/add_service.css' %}">
-    <link rel="stylesheet"
-    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
-</head>
-<body>
-
-<div class="container">
-
-    <div class="form-card">
-
+    <link rel="stylesheet" href="{% static 'css/add_service.css' %}" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
+    />
+  </head>
+  <body>
+    <div class="container">
+      <div class="form-card">
         <div class="header">
-            <i class="fa-solid fa-screwdriver-wrench"></i>
-            <h2>Add New Service</h2>
+          <i class="fa-solid fa-screwdriver-wrench"></i>
+          <h2>Add New Service</h2>
         </div>
-        <form method="POST" enctype="multipart/form-data" action="{% url 'addservice' %}" >
-            {% csrf_token %}
+        <form
+          method="POST"
+          enctype="multipart/form-data"
+          action="{% url 'addservice' %}"
+        >
+          {% csrf_token %}
 
-            <div class="form-group">
-                <label>Service Name</label>
-                <input type="text" name="service_name" placeholder="Enter service name">
-            </div>
+          <div class="form-group">
+            <label>Service Name</label>
+            <select name="service_name" required>
+              <option value="">Select Service</option>
 
-            <div class="form-group">
-                <label>Category</label>
-                <select name="category">
-                    <option>Select Category</option>
-                    <option>Home Appliance Repair</option>
-                    <option>Electrical Services</option>
-                    <option>Plumbing Services</option>
-                    <option>Cleaning Services</option>
-                    <option>Painting Services</option>
-                </select>
-            </div>
+              <!-- Home Appliance Repair -->
+              <option value="AC Repair">AC Repair</option>
+              <option value="Refrigerator Repair">Refrigerator Repair</option>
+              <option value="Washing Machine Repair">
+                Washing Machine Repair
+              </option>
+              <option value="Microwave Oven Repair">
+                Microwave Oven Repair
+              </option>
+              <option value="Water Purifier Repair">
+                Water Purifier Repair
+              </option>
+              <option value="Television Repair">Television Repair</option>
 
-            <div class="form-group">
-                <label>Price (₹)</label>
-                <input type="number" name="price" placeholder="Enter price">
-            </div>
+              <!-- Electrical Services -->
+              <option value="Ceiling Fan Installation">
+                Ceiling Fan Installation
+              </option>
+              <option value="Switch & Socket Repair">
+                Switch & Socket Repair
+              </option>
+              <option value="Wiring Installation">Wiring Installation</option>
+              <option value="Lighting Installation">
+                Lighting Installation
+              </option>
 
-            <div class="form-group">
-                <label>Description</label>
-                <textarea name="description" rows="4"
-                placeholder="Enter service description"></textarea>
-            </div>
+              <!-- Plumbing Services -->
+              <option value="Pipe Leak Repair">Pipe Leak Repair</option>
+              <option value="Tap Installation">Tap Installation</option>
+              <option value="Drain Cleaning">Drain Cleaning</option>
+              <option value="Bathroom Plumbing">Bathroom Plumbing</option>
 
-            <div class="form-group">
-                <label>Availability</label>
-                <select name="availability">
-                    <option>Available</option>
-                    <option>Unavailable</option>
-                </select>
-            </div>
+              <!-- Cleaning Services -->
+              <option value="Home Deep Cleaning">Home Deep Cleaning</option>
+              <option value="Kitchen Cleaning">Kitchen Cleaning</option>
+              <option value="Bathroom Cleaning">Bathroom Cleaning</option>
+              <option value="Sofa Cleaning">Sofa Cleaning</option>
 
-            <button type="submit" class="btn">
-                Add Service
-            </button>
+              <!-- Painting Services -->
+              <option value="Interior Painting">Interior Painting</option>
+              <option value="Exterior Painting">Exterior Painting</option>
+              <option value="Wall Putty Work">Wall Putty Work</option>
+              <option value="Waterproof Coating">Waterproof Coating</option>
+            </select>
+          </div>
 
+          <div class="form-group">
+            <label>Category</label>
+            <select name="category">
+              <option>Select Category</option>
+              <option>Home Appliance Repair</option>
+              <option>Electrical Services</option>
+              <option>Plumbing Services</option>
+              <option>Cleaning Services</option>
+              <option>Painting Services</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label>Price (₹)</label>
+            <input type="number" name="price" placeholder="Enter price" />
+          </div>
+
+          <div class="form-group">
+            <label>Description</label>
+            <textarea
+              name="description"
+              rows="4"
+              placeholder="Enter service description"
+            ></textarea>
+          </div>
+
+          <div class="form-group">
+            <label>Availability</label>
+            <select name="availability">
+              <option>Available</option>
+              <option>Unavailable</option>
+            </select>
+          </div>
+
+          <button type="submit" class="btn">Add Service</button>
         </form>
-
+      </div>
     </div>
-
-</div>
-
-</body>
+  </body>
 </html>

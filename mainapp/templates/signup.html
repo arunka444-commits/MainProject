@@ -1,93 +1,352 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Create Account | BookMyService</title>
+
     {% load static %}
-    <link rel="stylesheet" href="{% static 'css/signup.css' %}">
-</head>
-<body>
-    
+    <link rel="stylesheet" href="{% static 'css/signup.css' %}" />
+  </head>
+  <body>
     <div class="form-wrapper">
-        <div class="brand">
-            <div class="brand-icon">
-                <svg viewBox="0 0 56 56" width="26" height="26">
-                    <path d="M20 16 L20 40 M20 16 L28 16 Q34 16 34 21 Q34 26 28 26 L20 26 M20 26 L29 26 Q35 26 35 32 Q35 38 29 38 L20 38"
-                          fill="none" stroke="#c9a24b" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"/>
-                </svg>
-            </div>
-            <div class="brand-text-group">
-                <div class="brand-text">
-                    <span class="brand-book">Book</span><span class="brand-my">My</span><span class="brand-service">Service</span>
-                </div>
-                <div class="brand-tagline">Best Booking Platform</div>
-            </div>
+      <div class="brand">
+        <div class="brand-icon">
+          <svg viewBox="0 0 56 56" width="26" height="26">
+            <path
+              d="M20 16 L20 40 M20 16 L28 16 Q34 16 34 21 Q34 26 28 26 L20 26 M20 26 L29 26 Q35 26 35 32 Q35 38 29 38 L20 38"
+              fill="none"
+              stroke="#c9a24b"
+              stroke-width="3.2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            />
+          </svg>
         </div>
 
-        <div class="form-card">
-            <h1>Create Your Account</h1>
-            <p class="subtitle">Join thousands of professionals managing bookings with ease.</p>
+        <div class="brand-text-group">
+          <div class="brand-text">
+            <span class="brand-book">Book</span><span class="brand-my">My</span
+            ><span class="brand-service">Service</span>
+          </div>
+          <div class="brand-tagline">Best Booking Platform</div>
+        </div>
+      </div>
 
-            <form action="{% url 'signupuser' %}" method="post">
-                {% csrf_token %}
-                <div class="form-row">
-                    <div class="form-group">
-                        <label for="firstname">First Name</label>
-                        <input type="text" id="firstname" name="firstname" placeholder="John" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="lastname">Last Name</label>
-                        <input type="text" id="lastname" name="lastname" placeholder="Doe" required>
-                    </div>
-                </div>
+      <div class="form-card">
+        <h1>Create Your Account</h1>
+        <p class="subtitle">
+          Join thousands of professionals managing bookings with ease.
+        </p>
 
-                <div class="form-group">
-                    <label for="username">Username</label>
-                    <input type="text" id="username" name="username" placeholder="johndoe" required>
-                </div>
+        <form action="{% url 'signupuser' %}" method="post">
+          {% csrf_token %}
 
-                <div class="form-group">
-                    <label for="email">Email Address</label>
-                    <input type="email" id="email" name="email" placeholder="john@example.com" required>
-                </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label for="firstname">Full Name</label>
+              <input
+                type="text"
+                id="firstname"
+                name="firstname"
+                placeholder="John"
+                required
+              />
+            </div>
 
-                <div class="form-group">
-                    <label for="number">Phone Number</label>
-                    <input type="tel" id="number" name="number" placeholder="+91 98765 43210" required>
-                        </div>
-                        <div class="form-group">
+           
+          </div>
+
+          <div class="form-group">
+            <label for="username">Username</label>
+            <input
+              type="text"
+              id="username"
+              name="username"
+              placeholder="johndoe"
+              required
+            />
+          </div>
+
+          <div class="form-group">
+            <label for="email">Email Address</label>
+            <input
+              type="email"
+              id="email"
+              name="email"
+              placeholder="john@example.com"
+              required
+            />
+          </div>
+
+          <div class="form-group">
+            <label for="number">Phone Number</label>
+            <input
+              type="tel"
+              id="number"
+              name="number"
+              placeholder="+91 98765 43210"
+              required
+            />
+          </div>
+
+          <!-- Role Selection -->
+          <div class="form-group">
             <label for="role">Register As</label>
-            <select id="role" name="role" required>
-                <option value="" selected disabled>Select your account type</option>
-                <option value="customer">Customer</option>
-                <option value="service_provider">Service Provider</option>
-                <option value="employee">Service Employee</option>
+            <select id="role" name="role" onchange="toggleSkills()" required>
+              <option value="" selected disabled>
+                Select your account type
+              </option>
+              <option value="customer">Customer</option>
+              <option value="service_provider">Service Provider</option>
+              <option value="employee">Service Employee</option>
             </select>
-        </div>
+          </div>
 
-                <div class="form-group">
-                    <label for="password">Password</label>
-                    <input type="password" id="password" name="password" placeholder="••••••••" required>
-                </div>
+          <!-- Employee Skills Dropdown -->
+          <div class="form-group" id="skillDiv" style="display: none">
+            <label>Select Skills</label>
 
-                <div class="form-group">
-                    <label for="confpass">Confirm Password</label>
-                    <input type="password" id="confpass" name="confpass" placeholder="••••••••" required>
-                </div>
+            <div class="skills-container">
+              <label
+                ><input type="checkbox" name="skills" value="AC Repair" /> AC
+                Repair</label
+              >
 
-                <label class="terms-check">
-                    <input type="checkbox" name="terms" required>
-                    I agree to the <a href="#">Terms of Service</a> and <a href="#">Privacy Policy</a>
-                </label>
+              <label
+                ><input
+                  type="checkbox"
+                  name="skills"
+                  value="Refrigerator Repair"
+                />
+                Refrigerator Repair</label
+              >
 
-                <button type="submit" class="btn-submit">Create Account</button>
-            </form>
+              <label
+                ><input
+                  type="checkbox"
+                  name="skills"
+                  value="Washing Machine Repair"
+                />
+                Washing Machine Repair</label
+              >
 
-            <div class="form-footer">
-                Already have an account? <a href="{% url 'welcome' %}">Sign in</a>
+              <label
+                ><input
+                  type="checkbox"
+                  name="skills"
+                  value="Microwave Oven Repair"
+                />
+                Microwave Oven Repair</label
+              >
+
+              <label
+                ><input
+                  type="checkbox"
+                  name="skills"
+                  value="Water Purifier Repair"
+                />
+                Water Purifier Repair</label
+              >
+
+              <label
+                ><input
+                  type="checkbox"
+                  name="skills"
+                  value="Television Repair"
+                />
+                Television Repair</label
+              >
+
+              <label
+                ><input
+                  type="checkbox"
+                  name="skills"
+                  value="Ceiling Fan Installation"
+                />
+                Ceiling Fan Installation</label
+              >
+
+              <label
+                ><input
+                  type="checkbox"
+                  name="skills"
+                  value="Switch & Socket Repair"
+                />
+                Switch & Socket Repair</label
+              >
+
+              <label
+                ><input
+                  type="checkbox"
+                  name="skills"
+                  value="Wiring Installation"
+                />
+                Wiring Installation</label
+              >
+
+              <label
+                ><input
+                  type="checkbox"
+                  name="skills"
+                  value="Lighting Installation"
+                />
+                Lighting Installation</label
+              >
+
+              <label
+                ><input
+                  type="checkbox"
+                  name="skills"
+                  value="Pipe Leak Repair"
+                />
+                Pipe Leak Repair</label
+              >
+
+              <label
+                ><input
+                  type="checkbox"
+                  name="skills"
+                  value="Tap Installation"
+                />
+                Tap Installation</label
+              >
+
+              <label
+                ><input type="checkbox" name="skills" value="Drain Cleaning" />
+                Drain Cleaning</label
+              >
+
+              <label
+                ><input
+                  type="checkbox"
+                  name="skills"
+                  value="Bathroom Plumbing"
+                />
+                Bathroom Plumbing</label
+              >
+
+              <label
+                ><input
+                  type="checkbox"
+                  name="skills"
+                  value="Home Deep Cleaning"
+                />
+                Home Deep Cleaning</label
+              >
+
+              <label
+                ><input
+                  type="checkbox"
+                  name="skills"
+                  value="Kitchen Cleaning"
+                />
+                Kitchen Cleaning</label
+              >
+
+              <label
+                ><input
+                  type="checkbox"
+                  name="skills"
+                  value="Bathroom Cleaning"
+                />
+                Bathroom Cleaning</label
+              >
+
+              <label
+                ><input type="checkbox" name="skills" value="Sofa Cleaning" />
+                Sofa Cleaning</label
+              >
+
+              <label
+                ><input
+                  type="checkbox"
+                  name="skills"
+                  value="Interior Painting"
+                />
+                Interior Painting</label
+              >
+
+              <label
+                ><input
+                  type="checkbox"
+                  name="skills"
+                  value="Exterior Painting"
+                />
+                Exterior Painting</label
+              >
+
+              <label
+                ><input type="checkbox" name="skills" value="Wall Putty Work" />
+                Wall Putty Work</label
+              >
+
+              <label
+                ><input
+                  type="checkbox"
+                  name="skills"
+                  value="Waterproof Coating"
+                />
+                Waterproof Coating</label
+              >
             </div>
+          </div>
+
+          <div class="form-group">
+            <label for="password">Password</label>
+            <input
+              type="password"
+              id="password"
+              name="password"
+              placeholder="••••••••"
+              required
+            />
+          </div>
+
+          <div class="form-group">
+            <label for="confpass">Confirm Password</label>
+            <input
+              type="password"
+              id="confpass"
+              name="confpass"
+              placeholder="••••••••"
+              required
+            />
+          </div>
+
+          <label class="terms-check">
+            <input type="checkbox" name="terms" required />
+            I agree to the
+            <a href="#">Terms of Service</a>
+            and
+            <a href="#">Privacy Policy</a>
+          </label>
+
+          <button type="submit" class="btn-submit">Create Account</button>
+        </form>
+
+        <div class="form-footer">
+          Already have an account?
+          <a href="{% url 'welcome' %}">Sign in</a>
         </div>
+      </div>
     </div>
-</body>
+
+    <script>
+      function toggleSkills() {
+        let role = document.getElementById("role").value;
+        let skillDiv = document.getElementById("skillDiv");
+        let skill = document.getElementById("skill");
+
+        if (role === "employee") {
+          skillDiv.style.display = "block";
+          skill.required = true;
+        } else {
+          skillDiv.style.display = "none";
+          skill.required = false;
+          skill.value = "";
+        }
+      }
+    </script>
+  </body>
 </html>

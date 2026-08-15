@@ -72,22 +72,22 @@
         <section class="view active" id="view-dashboard">
           <div class="stats-grid">
             <div class="stat-card">
-              <h3>6</h3>
+              <h3>?</h3>
               <p>Total Services</p>
             </div>
 
             <div class="stat-card">
-              <h3>12</h3>
+              <h3>?</h3>
               <p>Total Employees</p>
             </div>
 
             <div class="stat-card">
-              <h3>8</h3>
+              <h3>?</h3>
               <p>Pending Bookings</p>
             </div>
 
             <div class="stat-card">
-              <h3>412</h3>
+              <h3>?</h3>
               <p>Completed Bookings</p>
             </div>
           </div>
@@ -102,10 +102,29 @@
             </div>
 
             <div class="profile-grid">
-              <div>🏢 HomeFix Solutions</div>
-              <div>✉ homefix@gmail.com</div>
-              <div>📞 +91 9876543210</div>
-              <div>📍 Kochi, Kerala</div>
+              <div>
+                <i class="fa-solid fa-user"></i>
+                <strong>Username:</strong>
+                {{ request.user.username }}
+              </div>
+
+              <div>
+                <i class="fa-solid fa-envelope"></i>
+                <strong>Email:</strong>
+                {{ request.user.email }}
+              </div>
+
+              <div>
+                <i class="fa-solid fa-phone"></i>
+                <strong>Phone:</strong>
+                {{ profile.phone|default:"Not provided" }}
+              </div>
+
+              <div>
+                <i class="fa-solid fa-user-tag"></i>
+                <strong>Role:</strong>
+                {{ profile.role }}
+              </div>
             </div>
           </section>
         </section>
@@ -115,7 +134,9 @@
           <section class="card">
             <div class="card-header">
               <h3>Services</h3>
-              <a href="{% url 'addservicepage' %}"><button>Add Service</button></a>
+              <a href="{% url 'addservicepage' %}"
+                ><button>Add Service</button></a
+              >
             </div>
 
             <div class="service-item">
@@ -196,8 +217,11 @@
         <!-- Bookings view -->
         <section class="view" id="view-bookings">
           <section class="card booking-card">
-            <h3>Booking Request</h3>
-            <h2>Total Bookings: {{ bookings|length }}</h2>
+            <div class="card-header">
+              <h3>Booking Requests</h3>
+              <h3>Total Bookings: {{ bookings|length }}</h3>
+            </div>
+
             <table class="data-table">
               <thead>
                 <tr>
@@ -211,57 +235,192 @@
 
               <tbody>
                 {% for booking in bookings %}
+
                 <tr>
-                  <td>{{ booking.id }}</td>
                   <td>{{ booking.user.username }}</td>
+
                   <td>{{ booking.service_name }}</td>
-                  <td>{{ booking.status }}</td>
-                  <td>{{ booking.created_at }}</td>
+
+                  <td>{{ booking.created_at|date:"d M Y" }}</td>
+
+                  <td>
+                    <span class="badge"> {{ booking.status }} </span>
+                  </td>
+
+                  <td>
+                    {% if booking.status == "Pending" %}
+
+                    <button
+                      type="button"
+                      class="btn-accept"
+                      onclick="openAssignModal('{{ booking.id }}')"
+                    >
+                      <i class="fa-solid fa-user-plus"></i>
+                      Assign Employee
+                    </button>
+
+                    <a
+                      href="{% url 'reject_booking' booking.id %}"
+                      class="btn-reject"
+                    >
+                      <i class="fa-solid fa-xmark"></i>
+                      Reject
+                    </a>
+
+                    <!-- Hidden employee data for this booking -->
+                    <div id="employees-{{ booking.id }}" style="display: none">
+                      {% for employee in booking.available_employees %}
+                      <option value="{{ employee.user.id }}">
+                        {{ employee.user.username }}
+                      </option>
+                      {% endfor %}
+                    </div>
+
+                    {% endif %}
+                  </td>
                 </tr>
+
+                {% empty %}
+
+                <tr>
+                  <td colspan="5">No bookings found</td>
+                </tr>
+
                 {% endfor %}
               </tbody>
             </table>
           </section>
         </section>
+
+        <!-- Assign Employee Modal -->
+        <div class="assign-modal" id="assignModal">
+          <div class="assign-modal-content">
+            <div class="assign-modal-header">
+              <div>
+                <h3>Assign Employee</h3>
+                <p id="assignServiceText"></p>
+              </div>
+
+              <button
+                type="button"
+                class="modal-close"
+                onclick="closeAssignModal()"
+              >
+                <i class="fa-solid fa-xmark"></i>
+              </button>
+            </div>
+
+            <form method="POST" id="assignEmployeeForm">
+              {% csrf_token %}
+
+              <div class="form-group">
+                <label for="employeeSelect"> Select Employee </label>
+
+                <select name="employee_id" id="employeeSelect" required>
+                  <option value="">Select an employee</option>
+                </select>
+              </div>
+
+              <div class="modal-actions">
+                <button
+                  type="button"
+                  class="btn-cancel"
+                  onclick="closeAssignModal()"
+                >
+                  Cancel
+                </button>
+
+                <button type="submit" class="btn-confirm">
+                  <i class="fa-solid fa-user-check"></i>
+                  Assign Employee
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
       </main>
     </div>
 
     <script>
       // ---- Sidebar navigation: show only the selected view ----
-      const menuItems = document.querySelectorAll('#sideMenu li[data-view]');
-      const views = document.querySelectorAll('.view');
-      const pageTitle = document.getElementById('pageTitle');
+      const menuItems = document.querySelectorAll("#sideMenu li[data-view]");
+      const views = document.querySelectorAll(".view");
+      const pageTitle = document.getElementById("pageTitle");
 
       const titles = {
-        dashboard: 'Dashboard (SERVICE PROVIDER)',
-        profile: 'My Profile',
-        services: 'Services',
-        employees: 'Employees',
-        bookings: 'Bookings',
+        dashboard: "Dashboard (SERVICE PROVIDER)",
+        profile: "My Profile",
+        services: "Services",
+        employees: "Employees",
+        bookings: "Bookings",
       };
 
       menuItems.forEach((item) => {
-        item.addEventListener('click', () => {
+        item.addEventListener("click", () => {
           const target = item.dataset.view;
 
-          menuItems.forEach((i) => i.classList.remove('active'));
-          item.classList.add('active');
+          menuItems.forEach((i) => i.classList.remove("active"));
+          item.classList.add("active");
 
-          views.forEach((v) => v.classList.remove('active'));
-          document.getElementById('view-' + target).classList.add('active');
+          views.forEach((v) => v.classList.remove("active"));
+          document.getElementById("view-" + target).classList.add("active");
 
           pageTitle.textContent = titles[target];
         });
       });
 
       // ---- Logout ----
-      document.getElementById('logoutBtn').addEventListener('click', () => {
-        if (confirm('Log out of BookMyService?')) {
-          
+      document.getElementById("logoutBtn").addEventListener("click", () => {
+        if (confirm("Log out of BookMyService?")) {
           window.location.href = "{% url 'logout_view' %}";
-          alert('You have been logged out.');
+          alert("You have been logged out.");
         }
       });
+
+      function openAssignModal(bookingId) {
+        const modal = document.getElementById("assignModal");
+
+        const employeeSelect = document.getElementById("employeeSelect");
+
+        const serviceText = document.getElementById("assignServiceText");
+
+        const employeeData = document.getElementById("employees-" + bookingId);
+
+        const form = document.getElementById("assignEmployeeForm");
+
+        // Clear old employees
+        employeeSelect.innerHTML =
+          '<option value="">Select an employee</option>';
+
+        if (!employeeData) {
+          employeeSelect.innerHTML =
+            '<option value="">No employees available</option>';
+        } else {
+          const options = employeeData.querySelectorAll("option");
+
+          options.forEach((option) => {
+            const newOption = document.createElement("option");
+
+            newOption.value = option.value;
+            newOption.textContent = option.textContent;
+
+            employeeSelect.appendChild(newOption);
+          });
+
+          serviceText.textContent = "Service: " + employeeData.dataset.service;
+        }
+
+        // Set form URL
+        form.action = "{% url 'assign_employee' 0 %}".replace("0", bookingId);
+
+        modal.classList.add("show");
+      }
+
+      function closeAssignModal() {
+        const modal = document.getElementById("assignModal");
+
+        modal.classList.remove("show");
+      }
     </script>
   </body>
 </html>

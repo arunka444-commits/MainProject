@@ -1,4 +1,5 @@
 from decimal import Decimal, InvalidOperation
+from django.db.models import Prefetch
 from django.http import JsonResponse
 from django.urls import reverse
 from django.contrib.auth import logout
@@ -36,20 +37,30 @@ def adminpage(request):
         "total_bookings": total_bookings,
         "customers": customers,
         "providers": providers,
-        "employees":employees,
+        "employees": employees,
     }
     return render(request, "admin.html", context)
 
 
 def userpage(request):
-    services = ServiceModel.objects.filter(status="Approved")
+    approved_services = ServiceModel.objects.filter(status="Approved")
 
-    my_bookings = Booking.objects.filter(
-        user=request.user
-    ).order_by("-created_at")
+    providers = (
+        User.objects.filter(addservice__status="Approved")
+        .distinct()
+        .prefetch_related(
+            Prefetch(
+                "addservice_set",
+                queryset=approved_services,
+                to_attr="approved_services",
+            )
+        )
+    )
+
+    my_bookings = Booking.objects.filter(user=request.user).order_by("-created_at")
 
     context = {
-        "services": services,
+        "providers": providers,
         "my_bookings": my_bookings,
         "total_bookings": my_bookings.count(),
         "pending_bookings": my_bookings.filter(status="Pending").count(),
@@ -59,25 +70,43 @@ def userpage(request):
 
     return render(request, "user.html", context)
 
+
 def employeepage(request):
     return render(request, "employee.html")
 
 
 def serviceproviderpage(request):
+
     bookings = []
+
     if request.user.is_authenticated:
-        bookings = Booking.objects.filter(service_provider=request.user).order_by(
-            "-created_at"
-        )
-    return render(request, "serviceprovider.html", {"bookings": bookings})
+
+        bookings = Booking.objects.filter(
+            service_provider=request.user
+        ).order_by("-created_at")
+
+        for booking in bookings:
+
+            booking.available_employees = Profilee.objects.filter(
+                role="EMPLOYEE",
+                skill__icontains=booking.service_name
+            ).select_related("user")
+
+    return render(
+        request,
+        "serviceprovider.html",
+        {
+            "bookings": bookings,
+        }
+    )
 
 
 def basepage(request):
     return render(request, "base.html")
 
+
 def addservicepage(request):
     return render(request, "add_service.html")
-
 
 
 # login code
@@ -99,13 +128,15 @@ def signupuser(request):
 
     if request.method == "POST":
 
-        firstname = request.POST.get("firstname")
-        lastname = request.POST.get("lastname")
-        username = request.POST.get("username")
-        email = request.POST.get("email")
-        role = request.POST.get("role")
-        password = request.POST.get("password")
-        confpass = request.POST.get("confpass")
+        firstname = request.POST.get("firstname", "").strip()
+        lastname = request.POST.get("lastname", "").strip()
+        username = request.POST.get("username", "").strip()
+        email = request.POST.get("email", "").strip()
+        role = request.POST.get("role", "").strip()
+        phone = request.POST.get("number", "").strip()
+        skills = request.POST.getlist("skills")
+        password = request.POST.get("password", "")
+        confpass = request.POST.get("confpass", "")
 
         if password != confpass:
             messages.error(request, "Passwords do not match")
@@ -132,15 +163,15 @@ def signupuser(request):
             "service_provider": "SERVICE_PROVIDER",
             "employee": "EMPLOYEE",
         }
+
         profile_role = role_map.get((role or "").lower(), "USER")
 
-        profile, created = Profilee.objects.get_or_create(
-            user=user, defaults={"role": profile_role}
+        Profilee.objects.create(
+            user=user,
+            role=profile_role,
+            phone=phone,
+            skill=", ".join(skills) if profile_role == "EMPLOYEE" else None,
         )
-        phone = request.POST.get("number", "").strip()
-        if phone:
-            profile.phone = phone
-            profile.save()
 
         messages.success(request, "Account created successfully")
         return redirect("welcome")
@@ -193,7 +224,6 @@ def loginuser(request):
 # addservicssavetodb
 
 
-
 def addservice(request):
     if request.method == "POST":
         service_name = request.POST.get("service_name", "").strip()
@@ -207,19 +237,15 @@ def addservice(request):
         except (InvalidOperation, TypeError, ValueError):
             price = Decimal("0")
 
-
         ServiceModel.objects.create(
             service_provider=request.user,
             service_name=service_name,
             category=category,
             description=description,
             price=price,
-            )
+        )
 
     return redirect("serviceproviderpage")
-
-
-
 
 
 def addservicetable(request):
@@ -245,14 +271,17 @@ def deleteservice(request, service_id):
 
 
 # book now button in user page
-def book_service(request, service_name):
-    provider = User.objects.filter(profilee__role="SERVICE_PROVIDER").first()
-    if provider is None:
-        provider = User.objects.filter(username="provider").first()
+def book_service(request, service_id):
+
+    service = get_object_or_404(ServiceModel, id=service_id)
 
     Booking.objects.create(
-        user=request.user, service_provider=provider, service_name=service_name
+        user=request.user,
+        service_provider=service.service_provider,
+        service_name=service.service_name,
+        status="Pending",
     )
+
     messages.success(request, "Booking request sent")
     return redirect("userpage")
 
@@ -336,7 +365,7 @@ def customer_list(request):
 
 # adminpage view serviceproviders
 def all_providers(request):
-    providers = Profilee.objects.filter(role='SERVICE_PROVIDER').select_related('user')
+    providers = Profilee.objects.filter(role="SERVICE_PROVIDER").select_related("user")
 
     context = {"Provider": providers}
 
@@ -352,10 +381,10 @@ def provider_list(request):
     return render(request, "admin.html", {"providers": providers})
 
 
-
-#adminpage view employees
+####################     EMPLOYEE VIEW     #########################################
+# adminpage view employees
 def all_employees(request):
-    employees = Profilee.objects.filter(role='EMPLOYEE').select_related('user')
+    employees = Profilee.objects.filter(role="EMPLOYEE").select_related("user")
 
     context = {"employees": employees}
 
@@ -369,7 +398,55 @@ def employee_list(request):
     print("employees:", employees.count())
     return render(request, "admin.html", {"employees": employees})
 
-#logout code
+
+
+
+
+
+def assign_employee(request, booking_id):
+    booking = get_object_or_404(Booking, id=booking_id)
+
+    # Only pending bookings can be assigned
+    if booking.status != "Pending":
+        messages.error(request, "This booking cannot be assigned.")
+        return redirect("serviceproviderpage")
+
+    if request.method == "POST":
+        employee_id = request.POST.get("employee_id")
+
+        employee_profile = get_object_or_404(
+            Profilee,
+            user_id=employee_id,
+            role="EMPLOYEE"
+        )
+
+        # Make sure employee has the required skill
+        if employee_profile.skill.lower() != booking.service_name.lower():
+            messages.error(
+                request,
+                "This employee does not have the required skill."
+            )
+            return redirect("serviceproviderpage")
+
+        booking.assigned_employee = employee_profile.user
+        booking.status = "Accepted"
+        booking.save()
+
+        messages.success(
+            request,
+            f"{employee_profile.user.username} assigned successfully."
+        )
+
+        return redirect("serviceproviderpage")
+
+    return redirect("serviceproviderpage")
+
+
+
+
+
+
+# logout code
 def logout_view(request):
     logout(request)
-    return redirect('welcome')
+    return redirect("welcome")

@@ -1,0 +1,29 @@
+#### EMPLOYEES  #######
+
+employee@gmail.com
+
+
+##############       SERVICE PROVIDER       ####################
+
+
+Full Name
+MY G
+Username
+myg
+Email Address
+myg@gmail.com
+
+
+#######################      USER     ##############################
+
+Full Name
+arun
+Username
+arunk
+Email Address
+arun@gmail.com
+Phone Number
++919567453864
+
+
+
